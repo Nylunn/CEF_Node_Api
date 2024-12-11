@@ -15,3 +15,5 @@ Vous pouvez faire fonctionner ce projet grâce à un git clone "lien_du_reposito
 [+]Grâce à nodemon plus besoin de redémarrer le serveur local à chaque modification 
 (Il y a toutes fois besoin d'enregistrer vos modifications...)
 
+## Informations utiles 
+Un tutoriel sera bientôt mis à votre disposition afin de vous expliquer complétements comment faire fonctionner cette API
