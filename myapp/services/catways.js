@@ -3,12 +3,18 @@ const fs = require('fs')
 
 // Creation of a catways
 
-exports.createCatways = () => {
+exports.createCatways  = async () => {
     const catways = new Catways({
-        
+        catwayNumber    : body.catwayNumber,
+        type            : body.type,
+        catwayState     : body.catwayState
     });
+    
+    try {
+        let catways = await Catways.create(temp);
 
-    catways.save()
-    .then(() => { res.status(201).json({message: 'Catways enregistré'})})
-    .catch(error => { res.status(400).json( { error })}); 
+        return res.status(201).json(user);
+    } catch (error) {
+        return res.status(501).json(error);
+    }
 };

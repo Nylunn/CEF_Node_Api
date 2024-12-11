@@ -16,7 +16,6 @@ const User = new Schema({
     catwayState: {
         type: String,
         trim: true,
-        required: [true, 'lemail est requis'],
         unique : true,
         lowercase: true 
     }
