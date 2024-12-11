@@ -40,6 +40,18 @@ app.get('/', (req, res) => {
     res.render('index', { title: 'Accueil' });
 });
 
+app.get('/about', (req, res) => {
+    res.render('about', { title: 'A propos' });
+});
+
+app.get('/login', (req, res) => {
+    res.render('login', { title: 'Connexion' });
+});
+
+app.get('/register', (req, res) => {
+    res.render('register', { title: 'S\'enregister' });
+});
+
 app.use(cors({
      exposedHeader : ['Authorization'],
       origin: '*'

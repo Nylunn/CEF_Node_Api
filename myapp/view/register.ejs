@@ -1,14 +1,18 @@
-<form method="post" action="http://localhost:3000/users/add" enctype="multipart/form-data">
-    <fieldset>
-        <legend>Veuillez vous enregistrer</legend> <br>
-        <label for="email">Email</label> <br>
-        <input type="email" name="email"> <br> <br>
-        <label for="firstname">Prénom</label>
-        <input type="firstname" name="firstname"> <br> <br>
-        <label for="name">Nom</label>
-        <input type="name" name="name"> <br> <br>
-        <label for="password">Mot de passe</label> <br>
-        <input type="password" name="password"> <br> <br>    
-        <input type="submit" value="submit">
-    </fieldset>
-</form>
+<div style="display: flex; justify-content: center; margin-top: 200px;">
+    <form method="post" action="http://localhost:3000/users/add" enctype="multipart/form-data">
+        <fieldset style="width: 280px; height: 360px; text-align: center; background-color: grey; font-size: 20px; font-family: Poppins; border-radius: 20px;">
+            <div>
+            <legend>Veuillez vous enregister :</legend> <br>
+            <label for="email">Email</label> <br>
+            <input type="email" name="email"> <br> <br>
+            <label for="password">Mot de passe</label> <br>
+            <input type="password" name="password"> <br> <br>
+            <label for="name">Mot de passe</label> <br>
+            <input type="name" name="name"> <br> <br>
+            </div>
+            <input type="submit" value="Connexion" style="color: white; background-color: black; width: 100px; height: 30px; border-radius: 20px; font-size: 15px; font-family: Poppins;">
+            <br> <a href="./">Retour à l'acceuil</a>
+        </fieldset>
+    </form>
+        
+    </div>
