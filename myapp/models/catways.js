@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const bcrypt = require('bcrypt');
 
-const User = new Schema({
+const CatwaysSchema = new Schema({
     catwayNumber: {
         type: Number,
         trim : true
@@ -16,21 +16,11 @@ const User = new Schema({
     catwayState: {
         type: String,
         trim: true,
-        unique : true,
-        lowercase: true 
     }
 }, {
     timestamps: true
 });
 
-User.pre('save', function(next) {
-    if (!this.isModified('password')) {
-        return next();
-    }
+const Catways = mongoose.model('Catways', CatwaysSchema);
 
-    this.password = bcrypt.hashSync(this.password, 10);
-
-    next();
-});
-
-module.exports = mongoose.model('User', User);
+module.exports = Catways;
