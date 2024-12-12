@@ -12,6 +12,8 @@ const path = require('path');
 
 const indexRouter = require('../routes/index');
 const mongodb = require('../db/mongo');
+const catwaysRoute = require('../routes/catways')
+
 
 
 
@@ -30,6 +32,7 @@ initClientDbConnection()
 
 
 
+app.use("/catways", catwaysRoute);
     // view engine setup
 app.use(helmet());
 app.set('views', path.join(__dirname, '../view'));

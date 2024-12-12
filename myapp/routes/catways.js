@@ -7,14 +7,16 @@ const service = require('../services/catways');
 
 // Routes
 
-router.get('/catways/', getCatways); 
 
-router.get('/catways/:id', getCatway);
-
-router.post("/catways/add", createCatways);
-
-router.put("/catways/update", updateCatways);
-
-router.delete("/catways/:id", deleteCatways)
+//Récupérer les informations des catways
+router.get('/', getCatways); 
+//Récupération d'un catway
+router.get('/:id', getCatway);
+//Création d'un catway
+router.post("/", createCatways);
+//Mise à jour d'un catway
+router.put("/:id", updateCatways);
+//Suppression d'un catway
+router.delete("/:id", deleteCatways)
 
 module.exports = router;

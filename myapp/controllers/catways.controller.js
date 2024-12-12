@@ -9,7 +9,6 @@ const getCatways = async (req , res) => {
     } catch (error) {
         res.status(500).json({message: error.message})
     }
-
 }
 
 //Création d'un catways
