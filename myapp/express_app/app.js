@@ -12,10 +12,7 @@ const path = require('path');
 
 const indexRouter = require('../routes/index');
 const mongodb = require('../db/mongo');
-const catwaysRoute = require('../routes/catways')
-
-
-
+const catwaysRoute = require('../routes/catways');
 
 
 initClientDbConnection()
@@ -29,8 +26,6 @@ initClientDbConnection()
     .catch(err => {
         console.error("Échec de la connexion MongoDB ->", err);
     });
-
-
 
 app.use("/catways", catwaysRoute);
     // view engine setup

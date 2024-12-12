@@ -1,4 +1,43 @@
-<html>
-    <h1>Comment faire fonctionner l'API ? </h1>
+<html style="font-family: Poppins;">
+    <h1>Port de plaisance Russel API - Documentation </h1>
+    <h2>Vue d'ensemble</h2>
+    <p>Cette API sert à <br> 
+        • Créer un catway <br>
+        • Lister l’ensemble des catways <br>
+        • Récupérer les détails d’un catway en particulier <br>
+        • Modifier la description de l’état d’un catway en particulier <br>
+        • Supprimer un catway <br>
+        • Prendre la réservation d’un catway <br>
+        • Supprimer une réservation <br>
+        • Lister l’ensemble des réservations <br> 
+        • Afficher les détails d’une réservation en particulier</p>
+    <h2>Tutoriel</h2>
+    <p>Une fois l'installation (Disponible dans le README) faites, vous pouvez enfin utiliser l'API, <br>
+    pour ce faire vous allez avoir besoin de <a href="https://www.postman.com/">Postman</a>  <br>
+    <br>
+    Lancer le serveur de développement local avec un <strong>npm run dev</strong><br>
+    <br>
+    1. Pour créer un catway vous allez devoir -> mettre l'url <strong>localhost:3000/catways</strong> avec la méthode <strong>POST</strong> <br>
+    Dirigez-vous dans l'onglet <strong>body</strong> de postman, et insérez les données suivantes : <br> <br> catwayNumber (Nombre du Catway) <br> type (type de catway /!\ Vous ne pouvez utiliser que long ou short) <br> catwayState (êtat du catway)
+    <br><br>
+    Une fois ses données saisies vous pouvez appuyer sur <strong>Send</strong> et voir la magie opérer, félicitations vous venez de créer votre premier Catway !
+    <br> <br>
+    Nous allons maintenant voir comment Lister l'ensemble des catways, pour ce faire changer la méthode de la requête vers <strong>GET</strong> et appuyez sur SEND pour voir la magie opérer <br>
+    <br>
+    Pour récupérer les détails d'un catway en particulier,  séléctionner l'<strong>id</strong> que vous devais voir apparaître dans votre terminal une fois la liste de tous les Catways effectuer <br>
+    puis faites localhost:3000/catways/(l'id que vous venez de récupérer), et pouf ! la magie opére ! 
+<br>
+<br>
+Enfin pour modifier un catway séléctionner la méthode <strong>PUT</strong>, changez les informations dans l'onglet body, et faites SEND, aussi simple que ça ! <br>
+<br> 
+Et pour finir, comment supprimer un catway ? c'est très simple, séléctionnez la méthode <strong>DELETE</strong> et faites SEND, et voilà vous venez de supprimer le catway correspondant à l'ID enregistrer dans l'URL</p>
+
+    <h2>Exemple</h2>
+    <p>Voici des démonstrations</p> <br>
+    <a href="#" target="_blank">Créer un catway</a> <br>
+    <a href="#" target="_blank">Afficher Les catways</a> <br>
+    <a href="#" target="_blank">Afficher un catway</a> <br>
+    <a href="#" target="_blank">Modifier un catway</a> <br>
+    <a href="#" target="_blank">Supprimer un catway</a> <br>
     <br> <a href="./">Retour à l'acceuil</a>
 </html>
