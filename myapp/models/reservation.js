@@ -5,26 +5,27 @@ const Schema = mongoose.Schema;
 const ReservationSchema = new Schema({
     catwayNumber: {
         type: Number,
-        trim : true,
-        required: true
+        required: true,
+        unique: true
     },
     clientName: {
         type: String,
-        trim: true,
+        default: "john",
         required: true
     },
     boatName: {
         type: String,
         trim: true,
+        default: "catamaran",
         required: true
     },
     checkIn: {
         type: Date,
         default: Date.now,
-        required: true
     },
     checkOut: {
         type: Date,
+        default: Date.now,
         required: true
     }
 }, {

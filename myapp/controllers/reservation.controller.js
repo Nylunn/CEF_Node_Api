@@ -15,8 +15,14 @@ const getReservations = async (req , res) => {
 
 const createReservation = async (req, res) => {
     try {
+      const existingReservation = await Reservation.findOne({ catwayNumber: req.body.catwayNumber });
+        
+      if (existingReservation) {
+          return res.status(400).json({ message: "Ce numéro de voie existe déjà" });
+      }
+
         const reservation = await Reservation.create(req.body);
-        res.status(200).json(reservation); 
+        res.status(200).json(reservation);
       } catch (error) {
         res.status(500).json({message: error.message});
       }

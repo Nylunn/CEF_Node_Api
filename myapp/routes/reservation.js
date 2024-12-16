@@ -8,14 +8,14 @@ const {getReservations, getReservation, createReservation, updateReservation, de
 
 
 //Récupérer les informations des reservations
-router.get('/', getReservations); 
+router.get('/reservations', getReservations); 
 //Récupération des infos d'une reservation
-router.get('/:id', getReservation);
+router.get('/reservations/:id', getReservation);
 //Création d'une reservation
-router.post("/", createReservation);
+router.post("/reservations/", createReservation);
 //Mise à jour d'une reservation
-router.put("/:id", updateReservation);
+router.put("/reservations/:id", updateReservation);
 //Suppression d'une reservation
-router.delete("/:id", deleteReservation)
+router.delete("/reservations/:id", deleteReservation)
 
 module.exports = router;

@@ -28,8 +28,11 @@ initClientDbConnection()
         console.error("Échec de la connexion MongoDB ->", err);
     });
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.use("/reservation", reservationRoute);
+
+app.use("/catways/:id/", reservationRoute);
 app.use("/catways", catwaysRoute);
     // view engine setup
 app.use(helmet());
@@ -58,8 +61,6 @@ app.use(cors({
       origin: '*'
 }));
 app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
   
