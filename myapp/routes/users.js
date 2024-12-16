@@ -1,8 +1,8 @@
 // Dans users.js ou routes/users.js
 const express = require('express');
-const User = require('../models/User');
+const User = require('../models/user');
 const router = express.Router();
-const {createUser, getAllUsers, getUsers, updateUser, deleteUser} = require('../controllers/users.controller') 
+const {createUser, getAllUsers, getUsers, updateUser, deleteUser, authenticate} = require('../controllers/users.controller') 
 
 
 //Création d'un user
@@ -15,5 +15,8 @@ router.get('/:id', getUsers)
 router.put('/:id', updateUser)
 //Suppression d'un User
 router.delete('/:id', deleteUser)
+
+//Connexion à un compte
+router.post('/authenticate', authenticate)
 
 module.exports = router;
