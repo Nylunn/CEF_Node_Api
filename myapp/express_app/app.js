@@ -13,7 +13,8 @@ const path = require('path');
 const indexRouter = require('../routes/index');
 const mongodb = require('../db/mongo');
 const catwaysRoute = require('../routes/catways');
-const reservationRoute = require('../routes/reservation.js')
+const reservationRoute = require('../routes/reservation.js');
+const userRoutes = require('../routes/users.js');
 
 
 initClientDbConnection()
@@ -34,6 +35,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/catways/:id/", reservationRoute);
 app.use("/catways", catwaysRoute);
+app.use("/users", userRoutes);
     // view engine setup
 app.use(helmet());
 app.set('views', path.join(__dirname, '../view'));
