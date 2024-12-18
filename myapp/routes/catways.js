@@ -12,7 +12,7 @@ router.get('/', getCatways);
 //Récupération d'un catway
 router.get('/:id', getCatway);
 //Création d'un catway
-router.post("/", createCatways);
+router.post("/add", createCatways);
 //Mise à jour d'un catway
 router.put("/:id", updateCatways);
 //Suppression d'un catway

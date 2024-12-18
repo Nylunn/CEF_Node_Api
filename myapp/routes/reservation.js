@@ -12,7 +12,7 @@ router.get('/reservations', getReservations);
 //Récupération des infos d'une reservation
 router.get('/reservations/:id', getReservation);
 //Création d'une reservation
-router.post("/reservations/", createReservation);
+router.post("/reservations/add", createReservation);
 //Mise à jour d'une reservation
 router.put("/reservations/:id", updateReservation);
 //Suppression d'une reservation

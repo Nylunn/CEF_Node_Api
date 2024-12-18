@@ -42,9 +42,24 @@ app.set('views', path.join(__dirname, '../view'));
 app.set('view engine', 'ejs');
 
 
+
+
 app.get('/', (req, res) => {
     res.render('index', { title: 'Accueil' });
 });
+
+app.get('/panel', (req, res) => {
+    res.render('panel', { title: 'Panel' });
+});
+
+app.get('/listofreservations', (req, res) => {
+    res.render('reservationslist', { title: 'Liste des réservations' });
+});
+
+app.get('/listofcatways', (req, res) => {
+    res.render('catwayslist', { title: 'Liste des catways' });
+});
+
 
 app.get('/about', (req, res) => {
     res.render('about', { title: 'A propos' });

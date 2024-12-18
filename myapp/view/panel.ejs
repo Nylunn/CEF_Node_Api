@@ -1,0 +1,198 @@
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestion des Utilisateurs, Catways et Réservations</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+            line-height: 1.6;
+        }
+        h1, h2 {
+            color: #333;
+            border-bottom: 2px solid #5c9ead;
+            padding-bottom: 10px;
+        }
+        form {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            color: #555;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #5c9ead;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #4a7e8c;
+        }
+        a {
+            display: inline-block;
+            background-color: #5c9ead;
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            margin: 10px 0;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+        a:hover {
+            background-color: #4a7e8c;
+        }
+    </style>
+</head>
+<nav style="
+background-color: #5c9ead; 
+display: flex; 
+justify-content: space-between; 
+align-items: center; 
+padding: 15px 30px; 
+font-family: Arial, sans-serif;
+">
+<a href="/" style="
+    color: white; 
+    font-size: 1.5em; 
+    font-weight: bold; 
+    text-decoration: none;
+">Panel</a>
+
+<div style="
+    display: flex; 
+    gap: 20px;
+">
+    <a href="./" style="
+        color: white; 
+        text-decoration: none; 
+        padding: 8px 12px;
+    ">Acceuil</a>
+    
+    <a href="/" style="
+        color: white; 
+        text-decoration: none; 
+        padding: 8px 12px;
+    ">Panel Port</a>
+    
+    <a href="/listofcatways" style="
+        color: white; 
+        text-decoration: none; 
+        padding: 8px 12px;
+    ">Catways</a>
+    
+    <a href="/listofreservations" style="
+        color: white; 
+        text-decoration: none; 
+        padding: 8px 12px;
+    ">Réservations</a>
+</div>
+</nav>
+<body>
+    <h1>Gestion des Ressources</h1>
+
+    <!-- Formulaire de création d'utilisateur -->
+    <h2>Créer un Utilisateur</h2>
+    <form action="/users/add" method="post">
+        <label>Nom : <input type="text" name="name" required></label>
+        <label>Email : <input type="email" name="email" required></label>
+        <label>Mot de passe : <input type="password" name="password" required></label>
+        <button type="submit">Créer Utilisateur</button>
+    </form>
+
+    <!-- Formulaire de modification d'utilisateur -->
+    <h2>Modifier un Utilisateur</h2>
+    <form action="/users/:id" method="put">
+        <label>ID Utilisateur : <input type="number" name="userId" required></label>
+        <label>Nouveau Nom : <input type="text" name="name"></label>
+        <label>Nouvel Email : <input type="email" name="email"></label>
+        <button type="submit">Modifier Utilisateur</button>
+    </form>
+
+    <!-- Formulaire de suppression d'utilisateur -->
+    <h2>Supprimer un Utilisateur</h2>
+    <form action="/users/:id" method="delete">
+        <label>ID Utilisateur : <input type="number" name="userId" required></label>
+        <button type="submit">Supprimer Utilisateur</button>
+    </form>
+
+    <!-- Formulaire de création de catway -->
+    <h2>Créer un Catway</h2>
+    <form action="/catways/add" method="post">
+        <label>Nom : <input type="text" name="name" required></label>
+        <label>Description : <textarea name="description"></textarea></label>
+        <button type="submit">Créer Catway</button>
+    </form>
+
+    <!-- Formulaire de modification de description de catway -->
+    <h2>Modifier Description du Catway</h2>
+    <form action="/catways/:id" method="put">
+        <label>ID Catway : <input type="number" name="catwayId" required></label>
+        <label>Nouvelle Description : <textarea name="description" required></textarea></label>
+        <button type="submit">Modifier Description</button>
+    </form>
+
+    <!-- Formulaire de suppression de catway -->
+    <h2>Supprimer un Catway</h2>
+    <form action="/catways/:id" method="delete">
+        <label>ID Catway : <input type="number" name="catwayId" required></label>
+        <button type="submit">Supprimer Catway</button>
+    </form>
+
+    <!-- Formulaire de détails de catway -->
+    <h2>Détails d'un Catway</h2>
+    <form action="/catways/:id" method="get">
+        <label>ID Catway : <input type="number" name="catwayId" required></label>
+        <button type="submit">Afficher Détails</button>
+    </form>
+
+    <!-- Formulaire d'enregistrement de réservation -->
+    <h2>Enregistrer une Réservation</h2>
+    <form action="/reservations/add" method="post">
+        <label>ID Utilisateur : <input type="number" name="userId" required></label>
+        <label>ID Catway : <input type="number" name="catwayId" required></label>
+        <label>Date Début : <input type="date" name="startDate" required></label>
+        <label>Date Fin : <input type="date" name="endDate" required></label>
+        <button type="submit">Enregistrer Réservation</button>
+    </form>
+
+    <!-- Formulaire de suppression de réservation -->
+    <h2>Supprimer une Réservation</h2>
+    <form action="/reservations/:id" method="delete">
+        <label>ID Réservation : <input type="number" name="reservationId" required></label>
+        <button type="submit">Supprimer Réservation</button>
+    </form>
+
+    <!-- Formulaire de détails de réservation -->
+    <h2>Détails d'une Réservation</h2>
+    <form action="/reservations/:id" method="get">
+        <label>ID Réservation : <input type="number" name="reservationId" required></label>
+        <button type="submit">Afficher Détails</button>
+    </form>
+
+    <!-- Liens -->
+    <h2>Navigation</h2>
+    <a href="/catways/list">Liste des Catways</a>
+    <a href="/reservations/list">Liste des Réservations</a>
+</body>
+</html>

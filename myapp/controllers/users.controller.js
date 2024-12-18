@@ -6,6 +6,7 @@ const router = express.Router();
 
 // Création d'un utilisateur
 
+
 const createUser = async (req, res) => {
     try {
         const { email, password, name } = req.body;
@@ -21,13 +22,21 @@ const createUser = async (req, res) => {
             return res.status(400).json({ message: 'Cet email est déjà utilisé' });
         }
 
+        // Hacher le mot de passe AVANT de créer l'utilisateur
+        const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Création du nouvel utilisateur
-        const user = await User.create(req.body);
-        res.status(200).json(user);
-      } catch (error) {
-        res.status(500).json({message: error.message});
-      }
+        // Création du nouvel utilisateur avec le mot de passe haché
+        const user = await User.create({
+            email,
+            password: hashedPassword,
+            name
+        });
+
+        res.status(201).json({ message: 'Utilisateur créé avec succès', userId: user._id });
+        console.log("ok")
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 }
 
 // Lecture des données clients (général)
@@ -87,40 +96,32 @@ const deleteUser = async (req, res) => {
 // Connexion a un user
 
 
-
 const authenticate = async (req, res, next) => {
     const { email, password } = req.body;
 
     try {
-        let user = await User.findOne({ email: email }, '-__v -createAt -updateAt');
+        let user = await User.findOne({ email: email });
 
-        if (user) {
-            bcrypt.compare(password, user.password, function(err, response) {
-                if (err) {
-                    throw new Error(err);
-                }
-                if (response) {
-                    delete user._doc_password;
+        console.log('User found:', user); // Log l'utilisateur trouvé
+        console.log('Entered password:', password); // Log le mot de passe entré
+        console.log('Stored password:', user.password); // Log le mot de passe stocké
 
-                    const expireIn = 24 * 60 * 60;
-                    const token    = jwt.sign({
-                        user: user
-                    },
-                SECRET_KEY, 
-            {
-                expiresIn: expireIn
-            });
-               res.header('Authorization', 'Bearer ' + token);
-                
-               return res.status(200).json('authenticated_succeed');
-            }
-            return res.status(403).json('wrong_credentials');
-            });
-        } else {
+        if (!user) {
             return res.status(404).json('user_not_found');
         }
+
+        const isMatch = await bcrypt.compare(password, user.password);
+
+        console.log('Password match:', isMatch); // Log le résultat de la comparaison
+
+        if (!isMatch) {
+            return res.status(403).json('wrong_credentials');
+        }
+
+        // Reste du code...
     } catch (error) {
-        return res.status(501).json(error)
+        console.error('Authentication error:', error);
+        return res.status(500).json(error.message);
     }
 }
 
