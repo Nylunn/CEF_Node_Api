@@ -3,6 +3,13 @@ const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const router = express.Router();
+const jwtSecret = process.env.JWT_SECRET;
+if (!jwtSecret) {
+    throw new Error('JWT_SECRET is not defined in the environment variables');
+}
+
+
+
 
 // Création d'un utilisateur
 
@@ -100,30 +107,44 @@ const authenticate = async (req, res, next) => {
     const { email, password } = req.body;
 
     try {
-        let user = await User.findOne({ email: email });
-
-        console.log('User found:', user); // Log l'utilisateur trouvé
-        console.log('Entered password:', password); // Log le mot de passe entré
-        console.log('Stored password:', user.password); // Log le mot de passe stocké
-
-        if (!user) {
-            return res.status(404).json('user_not_found');
+        // Vérifier que les champs email et password sont fournis
+        if (!email || !password) {
+            return res.status(400).json({ error: 'missing_fields', message: 'Email and password are required.' });
         }
 
-        const isMatch = await bcrypt.compare(password, user.password);
+        // Recherche de l'utilisateur dans la base de données
+        const user = await User.findOne({ email });
 
+        console.log('User found:', user); // Log l'utilisateur trouvé
+
+        // Vérifier si l'utilisateur existe
+        if (!user) {
+            return res.status(404).json({ error: 'user_not_found', message: 'User not found.' });
+        }
+
+        // Vérifier le mot de passe
+        const isMatch = await bcrypt.compare(password, user.password);
         console.log('Password match:', isMatch); // Log le résultat de la comparaison
 
         if (!isMatch) {
-            return res.status(403).json('wrong_credentials');
+            return res.status(403).json({ error: 'wrong_credentials', message: 'Invalid email or password.' });
         }
+        const token = jwt.sign(
+            { id: user._id, email: user.email }, // Payload
+            process.env.JWT_SECRET,             // Secret key
+            { expiresIn: '1h' }                 // Options (durée de validité)
+        );
+        
+        res.status(200).json({ message: 'Authentication successful', token });
 
-        // Reste du code...
     } catch (error) {
         console.error('Authentication error:', error);
-        return res.status(500).json(error.message);
+
+        // Gestion des erreurs générales
+        res.status(500).json({ error: 'server_error', message: error.message });
     }
-}
+};
+
 
 module.exports = router;
 

@@ -5,6 +5,7 @@ const router = express.Router();
 const {createUser, getAllUsers, getUsers, updateUser, deleteUser, authenticate} = require('../controllers/users.controller') 
 
 
+
 //Création d'un user
 router.post('/add', createUser);
 //Récupérartion de tous les users

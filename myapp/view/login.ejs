@@ -53,14 +53,14 @@ font-family: Arial, sans-serif;
 </div>
 </nav>
 <div style="display: flex; justify-content: center; margin-top: 200px;">
-    <form method="post" action="http://localhost:3000/authenticate" enctype="multipart/form-data">
+    <form method="post" action="http://localhost:3000/users/authenticate" enctype="multipart/form-data">
         <fieldset style="width: 280px; height: 300px; text-align: center; background-color: grey; font-size: 20px; font-family: Poppins; border-radius: 20px;">
             <div>
             <legend>Veuillez vous connecter</legend> <br>
             <label for="email">Email</label> <br>
-            <input type="email" name="email"> <br> <br>
+            <input type="email" name="email" required> <br> <br>
             <label for="password">Mot de passe</label> <br>
-            <input type="password" name="password"> <br> <br>
+            <input type="password" name="password" required> <br> <br>
             </div>
             <input type="submit" value="Connexion" style="color: white; background-color: black; width: 100px; height: 30px; border-radius: 20px; font-size: 15px; font-family: Poppins;">
             <br> <a href="./">Retour à l'acceuil</a>
@@ -68,3 +68,37 @@ font-family: Arial, sans-serif;
     </form>
         
     </div>
+    <script>
+        document.querySelector('form').addEventListener('submit', async (event) => {
+            event.preventDefault(); // Empêche le rechargement de la page
+    
+            // Récupérer les données du formulaire
+            const formData = new FormData(event.target);
+            const data = {
+                email: formData.get('email'),
+                password: formData.get('password'),
+            };
+    
+            try {
+                // Envoyer la requête POST à l'API
+                const response = await fetch('http://localhost:3000/users/authenticate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data),
+                });
+    
+                if (response.ok) {
+                    // Si la connexion réussit, rediriger vers une autre page
+                    window.location.href = '/panel'; // Page où rediriger l'utilisateur
+                } else {
+                    // Gérer les erreurs (exemple : mauvais identifiants)
+                    const error = await response.json();
+                    alert(error.message || 'Erreur lors de la connexion');
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+                alert('Impossible de se connecter au serveur');
+            }
+        });
+    </script>
+    
