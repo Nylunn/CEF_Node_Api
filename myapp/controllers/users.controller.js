@@ -6,7 +6,6 @@ const router = express.Router();
 
 // Création d'un utilisateur
 
-
 const createUser = async (req, res) => {
     try {
         const { email, password, name } = req.body;
@@ -22,10 +21,10 @@ const createUser = async (req, res) => {
             return res.status(400).json({ message: 'Cet email est déjà utilisé' });
         }
 
-        // Hacher le mot de passe AVANT de créer l'utilisateur
+        // Hacher le mot de passe
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Création du nouvel utilisateur avec le mot de passe haché
+        // Création du nouvel utilisateur
         const user = await User.create({
             email,
             password: hashedPassword,
@@ -33,11 +32,12 @@ const createUser = async (req, res) => {
         });
 
         res.status(201).json({ message: 'Utilisateur créé avec succès', userId: user._id });
-        console.log("ok")
+        console.log("Utilisateur créé :", user._id);
     } catch (error) {
+        console.error("Erreur création utilisateur :", error);
         res.status(500).json({ message: error.message });
     }
-}
+};
 
 // Lecture des données clients (général)
 

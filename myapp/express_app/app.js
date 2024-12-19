@@ -28,16 +28,30 @@ initClientDbConnection()
     .catch(err => {
         console.error("Échec de la connexion MongoDB ->", err);
     });
+    
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
+
+app.use(
+    helmet({
+      contentSecurityPolicy: {
+        directives: {
+          defaultSrc: ["'self'"],
+          scriptSrc: ["'self'", "'unsafe-inline'"],
+          styleSrc: ["'self'", "'unsafe-inline'"],
+          imgSrc: ["'self'", "data:", "https:"],
+        },
+      },
+    })
+  );
+
 app.use("/catways/:id/", reservationRoute);
 app.use("/catways", catwaysRoute);
 app.use("/users", userRoutes);
-    // view engine setup
-app.use(helmet());
 app.set('views', path.join(__dirname, '../view'));
 app.set('view engine', 'ejs');
 
