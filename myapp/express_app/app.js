@@ -9,6 +9,7 @@ require('dotenv').config({ path: '../env/.env' });
 const mongoose = require('mongoose');
 const { initClientDbConnection } = require('../db/mongo.js');
 const path = require('path');
+const Catways = require('../models/catways.js')
 
 const indexRouter = require('../routes/index');
 const mongodb = require('../db/mongo');
@@ -19,6 +20,9 @@ const jwtSecret = process.env.JWT_SECRET;
 if (!jwtSecret) {
     throw new Error('JWT_SECRET is not defined in the environment variables');
 }
+
+app.set('views', path.join(__dirname, 'view')); // Pointe vers le répertoire 'view'
+app.set('view engine', 'ejs');
 
 
 initClientDbConnection()
@@ -56,9 +60,6 @@ app.use(
 app.use("/catways/:id/", reservationRoute);
 app.use("/catways", catwaysRoute);
 app.use("/users", userRoutes);
-app.set('views', path.join(__dirname, '../view'));
-app.set('view engine', 'ejs');
-
 
 
 
@@ -74,8 +75,14 @@ app.get('/listofreservations', (req, res) => {
     res.render('reservationslist', { title: 'Liste des réservations' });
 });
 
-app.get('/listofcatways', (req, res) => {
-    res.render('catwayslist', { title: 'Liste des catways' });
+
+app.get('/listofcatways',  async (req, res) => {    try {
+    const catways = await Catways.find({});
+    res.locals.catways = catways; // Stockez les données dans res.locals
+    res.render('catwayslist'); // Utilisez le bon fichier EJS
+} catch (error) {
+    res.status(500).send(error);
+}
 });
 
 

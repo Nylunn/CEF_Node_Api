@@ -148,8 +148,10 @@
           ">S'inscrire</a>
     </div>
 </nav>
-    <h1>Liste des Catways</h1>
-
+    <h1>Liste des Catways  </h1>
+    <% catways.forEach(catway => { %>
+        <li><%= catway.catwayNumber %></li>
+    <% }); %>
     <table>
         <thead>
             <tr>
