@@ -9,12 +9,12 @@ router.get('/', getCatways);
 //Récupération d'un catway
 router.get('/catways/details/:id', async (req, res) => {
     try {
-        const catway = await Catway.findById(req.params.id);
+        const catway = await Catways.findById(req.params.id);
         if (!catway) {
             // Au lieu de render 'error', renvoyons une réponse JSON
             return res.status(404).json({ error: 'Catway non trouvé' });
         }
-        res.render('catway-details', { catway });
+        res.render('catwaysdetails', { catway });
     } catch (error) {
         console.error('Erreur:', error);
         // Au lieu de render 'error', renvoyons une réponse JSON

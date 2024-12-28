@@ -18,6 +18,7 @@ const catwaysRoute = require('../routes/catways');
 const reservationRoute = require('../routes/reservation.js');
 const userRoutes = require('../routes/users.js');
 const methodOverride = require('method-override');
+const Reservation = require('../models/reservation.js');
 app.use(methodOverride('_method'));
 const jwtSecret = process.env.JWT_SECRET;
 if (!jwtSecret) {
@@ -102,6 +103,23 @@ app.get('/catways/details/:id', async (req, res) => {
             res.render('catwaysdetails', { catway: selectedCatway }); // Envoyer les données à la vue
         } else {
             res.status(404).send('Catway non trouvé'); // ID non trouvé
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Erreur serveur'); // Gérer les erreurs du serveur
+    }
+});
+
+
+
+app.get('/reservations/details/:id', async (req, res) => {
+    const reservationId = req.params.id; // Récupérer l'ID de l'URL
+    try {
+        const selectedReservation = await Reservation.findOne({ _id: reservationId }); // Rechercher par ID
+        if (selectedReservation) {
+            res.render('reservationsdetails', { reservation: selectedReservation }); // Envoyer les données à la vue
+        } else {
+            res.status(404).send('Reservation non trouvé'); // ID non trouvé
         }
     } catch (err) {
         console.error(err);

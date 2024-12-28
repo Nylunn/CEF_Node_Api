@@ -160,7 +160,8 @@ font-family: Arial, sans-serif;
                     </form>
                     <td class="actions">
                         <a href="#" onclick="deleteReservation('<%= reservation._id %>')" class="btn btn-details">Supprimer</a>
-                    </td>
+                        <a href="/reservations/details/<%= reservation._id %>" class="btn btn-details">Détails</a>
+                        </td>
                 </tr>
             <% }); %>
         </tbody>
