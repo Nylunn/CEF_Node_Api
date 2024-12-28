@@ -11,20 +11,30 @@ router.get('/:id', getCatway);
 //Création d'un catway
 router.post("/add", createCatways);
 //Mise à jour d'un catway
-router.put('/:id', async (req, res) => {
-    console.log('PUT request received:', req.params.id, req.body); // Pour debug
+
+router.put('/api/catways/:id', async (req, res) => {
     try {
-        const result = await Catways.findByIdAndUpdate(
-            req.params.id,
-            { type: req.body.type },
-            { new: true }
+        const { id } = req.params;
+        const { type } = req.body;
+
+        const updatedCatway = await Catway.findByIdAndUpdate(
+            id,
+            { type },
+            { new: true, runValidators: true }
         );
-        res.json(result);
+
+        if (!updatedCatway) {
+            return res.status(404).json({ message: 'Catway non trouvé' });
+        }
+
+        res.json(updatedCatway);
     } catch (error) {
-        console.error('Update error:', error);
-        res.status(500).json({ error: error.message });
+        console.error('Erreur lors de la mise à jour:', error);
+        res.status(500).json({ message: 'Erreur serveur' });
     }
 });
+
+module.exports = router;
 //Suppression d'un catway
 router.delete("/:id", deleteCatways)
 

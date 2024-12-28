@@ -150,39 +150,18 @@ font-family: Arial, sans-serif;
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>1</td>
-                <td>Jean Dupont</td>
-                <td>Catway A</td>
-                <td>2024-07-15</td>
-                <td>2024-07-20</td>
-                <td class="actions">
-                    <a href="/reservations/675abdc25b0a596f6d8cd69b" class="btn btn-details">Détails</a>
-                    <a href="#" onclick="confirmDelete(1)" class="btn btn-delete">Supprimer</a>
-                </td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Marie Durand</td>
-                <td>Catway B</td>
-                <td>2024-08-01</td>
-                <td>2024-08-05</td>
-                <td class="actions">
-                    <a href="/reservations/details/2" class="btn btn-details">Détails</a>
-                    <a href="#" onclick="confirmDelete(2)" class="btn btn-delete">Supprimer</a>
-                </td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Pierre Martin</td>
-                <td>Catway C</td>
-                <td>2024-08-10</td>
-                <td>2024-08-15</td>
-                <td class="actions">
-                    <a href="/reservations/details/3" class="btn btn-details">Détails</a>
-                    <a href="#" onclick="confirmDelete(3)" class="btn btn-delete">Supprimer</a>
-                </td>
-            </tr>
+            <% reservations.forEach(reservation => { %>
+                <tr>
+                    <td><%= reservation._id %></td>
+                    <td><%= reservation.clientName %></td>
+                    <td><%= reservation.boatName %></td>
+                    <td><%= reservation.checkIn %></td>
+                    <td><%= reservation.checkOut %></td>
+                    </form>
+                    <td class="actions">
+                      </td>
+                </tr>
+            <% }); %>
         </tbody>
     </table>
 

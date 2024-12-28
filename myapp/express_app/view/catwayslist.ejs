@@ -198,7 +198,7 @@
         function saveType(id) {
     const newType = document.getElementById(`input-${id}`).value;
 
-    fetch(`https://localhost:3000/catways/${id}`, { // URL corrigée
+    fetch(`https://localhost:3000/catways/${id}`, { 
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',

@@ -10,6 +10,7 @@ const mongoose = require('mongoose');
 const { initClientDbConnection } = require('../db/mongo.js');
 const path = require('path');
 const Catways = require('../models/catways.js')
+const Reservations = require('../models/reservation.js')
 
 const indexRouter = require('../routes/index');
 const mongodb = require('../db/mongo');
@@ -73,8 +74,13 @@ app.get('/panel', (req, res) => {
     res.render('panel', { title: 'Panel' });
 });
 
-app.get('/listofreservations', (req, res) => {
-    res.render('reservationslist', { title: 'Liste des réservations' });
+app.get('/listofreservations', async (req, res) => {try {
+    const reservations = await Reservations.find({});
+    res.locals.reservations = reservations; // Stockez les données dans res.locals
+    res.render('reservationslist'); // Utilisez le bon fichier EJS
+} catch (error) {
+    res.status(500).send(error);
+}
 });
 
 
