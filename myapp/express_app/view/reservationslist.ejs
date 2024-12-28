@@ -159,7 +159,8 @@ font-family: Arial, sans-serif;
                     <td><%= reservation.checkOut %></td>
                     </form>
                     <td class="actions">
-                      </td>
+                        <a href="#" onclick="deleteReservation('<%= reservation._id %>')" class="btn btn-details">Supprimer</a>
+                    </td>
                 </tr>
             <% }); %>
         </tbody>
@@ -171,7 +172,7 @@ font-family: Arial, sans-serif;
     </div>
 
     <script>
-        function confirmDelete(id) {
+        function deleteReservation(id) {
             if (confirm('Êtes-vous sûr de vouloir supprimer la réservation ' + id + ' ?')) {
                 // Logique de suppression à implémenter
                 window.location.href = '/reservations/delete/' + id;

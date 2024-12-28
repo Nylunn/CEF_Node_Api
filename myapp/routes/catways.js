@@ -7,7 +7,20 @@ const {getCatways, getCatway, createCatways, updateCatways, deleteCatways} = req
 //Récupérer les informations des catways
 router.get('/', getCatways);
 //Récupération d'un catway
-router.get('/:id', getCatway);
+router.get('/catways/details/:id', async (req, res) => {
+    try {
+        const catway = await Catway.findById(req.params.id);
+        if (!catway) {
+            // Au lieu de render 'error', renvoyons une réponse JSON
+            return res.status(404).json({ error: 'Catway non trouvé' });
+        }
+        res.render('catway-details', { catway });
+    } catch (error) {
+        console.error('Erreur:', error);
+        // Au lieu de render 'error', renvoyons une réponse JSON
+        res.status(500).json({ error: 'Erreur serveur' });
+    }
+});
 //Création d'un catway
 router.post("/add", createCatways);
 //Mise à jour d'un catway

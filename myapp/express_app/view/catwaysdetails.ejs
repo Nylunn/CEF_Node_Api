@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Détails du Catway</title>
+    <style>
+        .details-container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        .detail-item {
+            margin: 15px 0;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .detail-label {
+            font-weight: bold;
+            color: #5c9ead;
+        }
+        .btn {
+            display: inline-block;
+            background-color: #5c9ead;
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+        <div class="details-container">
+            <h1>Détails du Catway <%= catway.catwayNumber %></h1>
+            
+            <div class="detail-item">
+                <span class="detail-label">ID:</span>
+                <span><%= catway._id %></span>
+            </div>
+            
+            <div class="detail-item">
+                <span class="detail-label">Numéro:</span>
+                <span><%= catway.catwayNumber %></span>
+            </div>
+            
+            <div class="detail-item">
+                <span class="detail-label">Type:</span>
+                <span><%= catway.type %></span>
+            </div>
+            
+            <div class="detail-item">
+                <span class="detail-label">État:</span>
+                <span><%= catway.catwayState %></span>
+            </div>
+        </div>
+        
+        <a href="/listofcatways" class="btn">Retour à la liste</a>
+    </div>
+</body>
+</html>

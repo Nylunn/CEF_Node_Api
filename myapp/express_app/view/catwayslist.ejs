@@ -175,8 +175,9 @@
                     </td>
                     <td><%= catway.catwayState %></td>
                     <td class="actions">
-                        <a href="#" onclick="deleteCatway('<%= catway._id %>')" class="supprimer">Supprimer</a>
-                    </td>
+                        <a href="#" onclick="deleteCatway('<%= catway._id %>')" class="btn btn-details">Supprimer</a>
+                        <a href="/catways/details/<%= catway._id %>" class="btn btn-details">Détails</a>
+                        </td>
                 </tr>
             <% }); %>
         </tbody>
