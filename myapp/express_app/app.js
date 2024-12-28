@@ -16,6 +16,8 @@ const mongodb = require('../db/mongo');
 const catwaysRoute = require('../routes/catways');
 const reservationRoute = require('../routes/reservation.js');
 const userRoutes = require('../routes/users.js');
+const methodOverride = require('method-override');
+app.use(methodOverride('_method'));
 const jwtSecret = process.env.JWT_SECRET;
 if (!jwtSecret) {
     throw new Error('JWT_SECRET is not defined in the environment variables');

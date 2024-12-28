@@ -149,9 +149,7 @@
     </div>
 </nav>
     <h1>Liste des Catways  </h1>
-    <% catways.forEach(catway => { %>
-        <li><%= catway.catwayNumber %></li>
-    <% }); %>
+ 
     <table>
         <thead>
             <tr>
@@ -163,54 +161,62 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>1</td>
-                <td>Catway A</td>
-                <td class="description">Catway situé près de l'entrée principale, excellente infrastructure...</td>
-                <td>Disponible</td>
-                <td class="actions">
-                    <a href="/catways/details/1" class="btn btn-details">Détails</a>
-                    <a href="/catways/edit/1" class="btn btn-edit">Modifier</a>
-                    <a href="#" onclick="confirmDelete(1)" class="btn btn-delete">Supprimer</a>
-                </td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Catway B</td>
-                <td class="description">Catway moderne avec équipements de pointe et vue panoramique...</td>
-                <td>En Maintenance</td>
-                <td class="actions">
-                    <a href="/catways/details/2" class="btn btn-details">Détails</a>
-                    <a href="/catways/edit/2" class="btn btn-edit">Modifier</a>
-                    <a href="#" onclick="confirmDelete(2)" class="btn btn-delete">Supprimer</a>
-                </td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Catway C</td>
-                <td class="description">Catway spécialisé pour les embarcations de grande taille...</td>
-                <td>Disponible</td>
-                <td class="actions">
-                    <a href="/catways/details/3" class="btn btn-details">Détails</a>
-                    <a href="/catways/edit/3" class="btn btn-edit">Modifier</a>
-                    <a href="#" onclick="confirmDelete(3)" class="btn btn-delete">Supprimer</a>
-                </td>
-            </tr>
+            <% catways.forEach(catway => { %>
+                <tr>
+                    <td><%= catway._id %></td>
+                    <td><%= catway.catwayNumber %></td>
+                    <td>
+                        <span id="type-<%= catway._id %>"><%= catway.type %></span>
+                        <form id="form-<%= catway._id %>" class="edit-form">
+                            <input type="text" id="newType-<%= catway._id %>" value="<%= catway.type %>">
+                            <button type="button" onclick="updateType('<%= catway._id %>')">OK</button>
+                            <button type="button" onclick="cancelEdit('<%= catway._id %>')">Annuler</button>
+                        </form>
+                    </td>
+                    <td><%= catway.catwayState %></td>
+                    <td class="actions">
+                        <a href="#" onclick="deleteCatway('<%= catway._id %>')" class="supprimer">Supprimer</a>
+                    </td>
+                </tr>
+            <% }); %>
         </tbody>
     </table>
 
     <div class="navigation">
-        <a href="/catways/create">Nouveau Catway</a>
+        <a href="/catways/add">Nouveau Catway</a>
         <a href="/">Retour au Menu Principal</a>
     </div>
 
     <script>
-        function confirmDelete(id) {
-            if (confirm('Êtes-vous sûr de vouloir supprimer le catway ' + id + ' ?')) {
-                // Logique de suppression à implémenter
-                window.location.href = '/catways/delete/' + id;
-            }
+        function editType(id) {
+            document.getElementById(`display-${id}`).style.display = 'none';
+            document.getElementById(`input-${id}`).style.display = 'block';
+            document.getElementById(`edit-${id}`).style.display = 'none';
+            document.getElementById(`save-${id}`).style.display = 'block';
         }
-    </script>
+    
+        function saveType(id) {
+    const newType = document.getElementById(`input-${id}`).value;
+
+    fetch(`https://localhost:3000/catways/${id}`, { // URL corrigée
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ type: newType }),
+    })
+    .then(response => {
+        if (response.ok) {
+            document.getElementById(`display-${id}`).textContent = newType;
+            document.getElementById(`display-${id}`).style.display = 'block';
+            document.getElementById(`input-${id}`).style.display = 'none';
+        } else {
+            console.error(`Erreur serveur : ${response.statusText}`);
+        }
+    })
+    .catch(error => console.error('Erreur de la requête :', error));
+}
+
+        </script>
 </body>
 </html>
