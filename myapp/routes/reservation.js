@@ -27,8 +27,35 @@ router.get('/reservations/details/:id', async (req, res) => {
 //Création d'une reservation
 router.post("/reservations/add", createReservation);
 //Mise à jour d'une reservation
-router.put("/reservations/:id", updateReservation);
-//Suppression d'une reservation
+router.put("/reservations/:id", async (req, res) => {
+    try {
+        console.log(req.body);
+        const { id } = req.params;
+        const { clientName, catwayNumber, boatName, checkIn, checkOut } = req.body;
+        
+        const updatedReservation = await Reservation.findByIdAndUpdate(
+            id,
+            { 
+                clientName,
+                catwayNumber,
+                boatName,
+                checkIn,
+                checkOut
+            },
+            { new: true, runValidators: true }
+        );
+
+        if (!updatedReservation) {
+            return res.status(404).json({ message: 'Catway non trouvé' });
+        }
+
+        res.json(updatedReservation);
+    } catch (error) {
+        console.error('Erreur lors de la mise à jour:', error);
+        res.status(500).json({ message: 'Erreur serveur' });
+    }
+});
+
 router.delete("/reservations/:id", deleteReservation)
 
 module.exports = router;

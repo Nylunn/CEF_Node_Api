@@ -184,7 +184,12 @@
     </table>
 
     <div class="navigation">
-        <a href="/catways/add">Nouveau Catway</a>
+        <form method="POST" action="/catways/add">
+            <input type="text" id="catwayNumber" name="catwayNumber" required placeholder="Numéro du catway"> <br>
+            <input type="text" id="type" name="type" required placeholder="type (short | long)"> <br>
+            <input type="text" id="catwayState" name="catwayState" required placeholder="État du catway"> <br>
+            <button type="submit">Nouveau Catway</button>
+        </form>
         <a href="/">Retour au Menu Principal</a>
     </div>
 

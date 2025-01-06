@@ -61,7 +61,7 @@ app.use(
     })
   );
 
-app.use("/catways/:id/", reservationRoute);
+app.use("/catways/", reservationRoute);
 app.use("/catways", catwaysRoute);
 app.use("/users", userRoutes);
 
