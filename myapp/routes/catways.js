@@ -23,16 +23,22 @@ router.get('/catways/details/:id', async (req, res) => {
 });
 //Création d'un catway
 router.post("/add", createCatways);
+
 //Mise à jour d'un catway
 
-router.put('/api/catways/:id', async (req, res) => {
+router.put('/:id', async (req, res) => {
     try {
+        console.log(req.body);
         const { id } = req.params;
-        const { type } = req.body;
-
-        const updatedCatway = await Catway.findByIdAndUpdate(
+        const { type, catwayNumber, catwayState } = req.body;
+        
+        const updatedCatway = await Catways.findByIdAndUpdate(
             id,
-            { type },
+            { 
+                type,
+                catwayNumber,
+                catwayState
+            },
             { new: true, runValidators: true }
         );
 
