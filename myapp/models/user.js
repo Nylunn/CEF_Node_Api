@@ -14,8 +14,14 @@ const UserSchema = new Schema({
     password: {
         type: String,
         trim: true,
+    },
+    role: {
+        type: String,
+        enum: ['user', 'admin'],
+        default: 'user'
     }
-}, {
+},
+{
     timestamps: true
 });
 

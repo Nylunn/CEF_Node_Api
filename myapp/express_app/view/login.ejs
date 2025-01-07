@@ -6,23 +6,24 @@ align-items: center;
 padding: 15px 30px; 
 font-family: Arial, sans-serif;
 ">
+
 <a href="/" style="
     color: white; 
     font-size: 1.5em; 
     font-weight: bold; 
     text-decoration: none;
-">Connexion</a>
+">Acceuil</a>
 
 <div style="
     display: flex; 
     gap: 20px;
 ">
-    <a href="./" style="
+    <a href="/about" style="
         color: white; 
         text-decoration: none; 
         padding: 8px 12px;
-    ">Acceuil</a>
-    
+    ">A propos</a>
+  <% if (user.role === 'admin') { %>  
     <a href="/Panel" style="
         color: white; 
         text-decoration: none; 
@@ -39,7 +40,7 @@ font-family: Arial, sans-serif;
         color: white; 
         text-decoration: none; 
         padding: 8px 12px;
-    ">Réservations</a>
+    ">Réservations</a>  <% } %>
              <a href="/login" style="
              color: white; 
              text-decoration: none; 
@@ -70,7 +71,7 @@ font-family: Arial, sans-serif;
     </div>
     <script>
         document.querySelector('form').addEventListener('submit', async (event) => {
-            event.preventDefault(); // Empêche le rechargement de la page
+            event.preventDefault(); 
     
             // Récupérer les données du formulaire
             const formData = new FormData(event.target);
@@ -88,8 +89,8 @@ font-family: Arial, sans-serif;
                 });
     
                 if (response.ok) {
-                    // Si la connexion réussit, rediriger vers une autre page
-                    window.location.href = '/panel'; // Page où rediriger l'utilisateur
+                    // Si la connexion réussi, rediriger vers une autre page
+                    window.location.href = '/about'; // Page où rediriger l'utilisateur
                 } else {
                     // Gérer les erreurs (exemple : mauvais identifiants)
                     const error = await response.json();

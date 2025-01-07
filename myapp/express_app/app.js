@@ -11,14 +11,17 @@ const { initClientDbConnection } = require('../db/mongo.js');
 const path = require('path');
 const Catways = require('../models/catways.js')
 const Reservations = require('../models/reservation.js')
-
 const indexRouter = require('../routes/index');
 const mongodb = require('../db/mongo');
 const catwaysRoute = require('../routes/catways');
 const reservationRoute = require('../routes/reservation.js');
 const userRoutes = require('../routes/users.js');
 const methodOverride = require('method-override');
+const Users = require('../models/user.js')
 const Reservation = require('../models/reservation.js');
+const { isAdmin, isAuthenticated } = require('../middlewares/auth.js');
+const User = require('../models/user.js');
+const session = require('express-session');
 app.use(methodOverride('_method'));
 const jwtSecret = process.env.JWT_SECRET;
 if (!jwtSecret) {
@@ -41,7 +44,14 @@ initClientDbConnection()
         console.error("Échec de la connexion MongoDB ->", err);
     });
     
-
+app.use(
+      session({
+          secret: 'votre_secret',
+        resave: false,
+        saveUninitialized: true,
+        cookie: { secure: false }
+       })
+);
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -67,35 +77,52 @@ app.use("/users", userRoutes);
 
 
 
-app.get('/', (req, res) => {
-    res.render('index', { title: 'Accueil' });
+app.get('/', async (req, res) => {
+    try {
+        const user  = await Users.find({});
+        res.locals.user  = user; 
+        res.render('index');
+    } catch (error) {
+        console.error('Erreur:', error);
+        res.status(500).send('Erreur serveur');
+    }
 });
 
-app.get('/panel', (req, res) => {
-    res.render('panel', { title: 'Panel' });
-});
 
-app.get('/listofreservations', async (req, res) => {try {
-    const reservations = await Reservations.find({});
-    res.locals.reservations = reservations; // Stockez les données dans res.locals
-    res.render('reservationslist'); // Utilisez le bon fichier EJS
+
+
+app.get('/listofreservations',  async (req, res) => {try {
+    const [reservations, users] = await Promise.all([
+        Reservation.find({}),
+        Users.find({})
+    ]);
+
+    res.locals.users = users;
+    res.locals.reservations = reservations;
+    res.render('reservationslist'); 
 } catch (error) {
     res.status(500).send(error);
 }
 });
 
 
-app.get('/listofcatways',  async (req, res) => {    try {
-    const catways = await Catways.find({});
-    res.locals.catways = catways; // Stockez les données dans res.locals
-    res.render('catwayslist'); // Utilisez le bon fichier EJS
+
+app.get('/listofcatways', isAuthenticated, isAdmin,  async (req, res) => {    try {
+    const [catways, users] = await Promise.all([
+        Catways.find({}),
+        Users.find({})
+    ]);
+
+    res.locals.users = users;
+    res.locals.catways = catways;
+    res.render('catwayslist'); 
 } catch (error) {
     res.status(500).send(error);
 }
 });
 
 
-app.get('/catways/details/:id', async (req, res) => {
+app.get('/catways/details/:id', isAuthenticated, isAdmin, async (req, res) => {
     const catwayId = req.params.id; // Récupérer l'ID de l'URL
     try {
         const selectedCatway = await Catways.findOne({ _id: catwayId }); // Rechercher par ID
@@ -111,8 +138,27 @@ app.get('/catways/details/:id', async (req, res) => {
 });
 
 
+app.get('/panel', isAuthenticated, isAdmin, async (req, res) => {
+    try {
+        const [reservations, catways, users] = await Promise.all([
+            Reservations.find({}),
+            Catways.find({}),
+            Users.find({})
+        ]);
 
-app.get('/reservations/details/:id', async (req, res) => {
+        res.locals.reservations = reservations;
+        res.locals.catways = catways;
+        res.locals.users = users;
+
+
+        res.render('panel');
+    } catch (error) {
+        console.error('Erreur:', error);
+        res.status(500).send('Erreur serveur');
+    }
+});
+
+app.get('/reservations/details/:id', isAuthenticated, isAdmin, async (req, res) => {
     const reservationId = req.params.id; // Récupérer l'ID de l'URL
     try {
         const selectedReservation = await Reservation.findOne({ _id: reservationId }); // Rechercher par ID
@@ -127,17 +173,65 @@ app.get('/reservations/details/:id', async (req, res) => {
     }
 });
 
-app.get('/about', (req, res) => {
-    res.render('about', { title: 'A propos' });
+app.get('/about', isAuthenticated, async (req, res) => {
+    try {
+        const user  = await Users.find({});
+        res.locals.user  = user; 
+        res.render('about', { title: 'A propos' });
+    } catch (error) {
+        console.error('Erreur:', error);
+        res.status(500).send('Erreur serveur');
+    }
 });
 
-app.get('/login', (req, res) => {
-    res.render('login', { title: 'Connexion' });
+app.get('/login', async (req, res) => {
+    try {
+        const user  = await Users.find({});
+        res.locals.user  = user; 
+        res.render('login');
+    } catch (error) {
+        console.error('Erreur:', error);
+        res.status(500).send('Erreur serveur');
+    }
 });
 
-app.get('/register', (req, res) => {
-    res.render('register', { title: 'S\'enregister' });
+app.get('/register', async (req, res) => {
+    try {
+        const user  = await Users.find({});
+        res.locals.user  = user; 
+        res.render('register', { title: 'S\'enregister' });
+    } catch (error) {
+        console.error('Erreur:', error);
+        res.status(500).send('Erreur serveur');
+    }
+}); 
+
+app.post('/register', async (req, res) => {
+    try {
+        const { username, password, adminCode } = req.body;
+        
+        // Hash du mot de passe
+        const hashedPassword = await bcrypt.hash(password, 10);
+        
+        // Vérifiez si c'est un admin (avec un code secret)
+        const role = adminCode === 'VOTRE_CODE_SECRET' ? 'admin' : 'user';
+        
+        const user = new Users({
+            username,
+            password: hashedPassword,
+            role
+        });
+        
+        await user.save();
+        res.redirect('/login');
+    } catch (error) {
+        res.status(500).send(error);
+    }
 });
+
+
+
+
 
 app.use(cors({
      exposedHeader : ['Authorization'],

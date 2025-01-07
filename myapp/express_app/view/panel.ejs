@@ -121,85 +121,101 @@ font-family: Arial, sans-serif;
 <body>
     <h1>Gestion des Ressources</h1>
 
+    <br>
+    <h1>Utilisateurs</h1>
+    <br>
+
     <!-- Formulaire de création d'utilisateur -->
     <h2>Créer un Utilisateur</h2>
-    <form action="/users/add" method="post">
-        <label>Nom : <input type="text" name="name" required></label>
-        <label>Email : <input type="email" name="email" required></label>
-        <label>Mot de passe : <input type="password" name="password" required></label>
-        <button type="submit">Créer Utilisateur</button>
+    <form method="POST" action="/users/add">
+        <input type="text" id="name" name="name" required placeholder="Nom"> <br>
+        <input type="text" id="email" name="email" required placeholder="email"> <br>
+        <input type="text" id="password" name="password" required placeholder="Mot de passe"> <br>
+        <button type="submit">Créer</button>
     </form>
 
     <!-- Formulaire de modification d'utilisateur -->
     <h2>Modifier un Utilisateur</h2>
-    <form action="/users/:id" method="put">
-        <label>ID Utilisateur : <input type="number" name="userId" required></label>
-        <label>Nouveau Nom : <input type="text" name="name"></label>
-        <label>Nouvel Email : <input type="email" name="email"></label>
-        <button type="submit">Modifier Utilisateur</button>
+    <form method="PUT" action="/users/:id">
+        <input type="text" id="id" name="id" required placeholder="id"> <br>
+        <input type="text" id="name" name="name" required placeholder="Nom"> <br>
+        <input type="text" id="email" name="email" required placeholder="email"> <br>
+        <input type="text" id="password" name="password" required placeholder="Mot de passe"> <br>
+        <button type="submit">Modifier</button>
     </form>
 
     <!-- Formulaire de suppression d'utilisateur -->
     <h2>Supprimer un Utilisateur</h2>
-    <form action="/users/:id" method="delete">
-        <label>ID Utilisateur : <input type="number" name="userId" required></label>
-        <button type="submit">Supprimer Utilisateur</button>
+    <form method="PUT" action="/users/:id">
+        <input type="text" id="id" name="id" required placeholder="id"> <br>
+        <button type="submit">Supprimer</button>
     </form>
 
     <!-- Formulaire de création de catway -->
-    <h2>Créer un Catway</h2>
-    <form action="/catways/add" method="post">
-        <label>Nom : <input type="text" name="name" required></label>
-        <label>Description : <textarea name="description"></textarea></label>
-        <button type="submit">Créer Catway</button>
-    </form>
+   
+    <br>
+    <h1>Catways</h1>
+    <br>
 
-    <!-- Formulaire de modification de description de catway -->
-    <h2>Modifier Description du Catway</h2>
-    <form action="/catways/:id" method="put">
-        <label>ID Catway : <input type="number" name="catwayId" required></label>
-        <label>Nouvelle Description : <textarea name="description" required></textarea></label>
-        <button type="submit">Modifier Description</button>
-    </form>
+        <h2>Créer un Catway</h2>
+        <form method="POST" action="/catways/add">
+            <input type="text" id="catwayNumber" name="catwayNumber" required placeholder="Numéro du catway"> <br>
+            <input type="text" id="type" name="type" required placeholder="type (short | long)"> <br>
+            <input type="text" id="catwayState" name="catwayState" required placeholder="État du catway"> <br>
+            <button type="submit">Nouveau Catway</button>
+        </form>
+        
+        <!-- Formulaire de modification de description de catway -->
+        <h2>Modifier Description du Catway</h2>
+        <form method="PUT" action="/catways/:id">
+            <input type="text" id="id" name="id" required placeholder="id"> <br>
+            <input type="text" id="catwayState" name="catwayState" required placeholder="État du catway"> <br>
+            <button type="submit">Modifier</button>
+        </form>
+        
+        <!-- Formulaire de détails de catway -->
+        <h2>Détails d'un Catway</h2>
+        <form action="/catways/:id" method="get">
+            <label>ID Catway : <input type="text" name="catwayId" required></label>
+            <button type="submit">Afficher Détails</button>
+        </form>
 
-    <!-- Formulaire de suppression de catway -->
-    <h2>Supprimer un Catway</h2>
-    <form action="/catways/:id" method="delete">
-        <label>ID Catway : <input type="number" name="catwayId" required></label>
-        <button type="submit">Supprimer Catway</button>
-    </form>
-
-    <!-- Formulaire de détails de catway -->
-    <h2>Détails d'un Catway</h2>
-    <form action="/catways/:id" method="get">
-        <label>ID Catway : <input type="number" name="catwayId" required></label>
-        <button type="submit">Afficher Détails</button>
-    </form>
-
+        <!-- Formulaire de suppression de catway -->
+        <h2>Supprimer un Catway</h2>
+        <form action="/catways/:id" method="delete">
+            <label>ID Catway : <input type="text" name="catwayId" required></label>
+            <button type="submit">Supprimer Catway</button>
+        </form>
+        
+   <br>
+   <h1>Réservations</h1>
+   <br>
+        
     <!-- Formulaire d'enregistrement de réservation -->
+
     <h2>Enregistrer une Réservation</h2>
-    <form action="/reservations/add" method="post">
-        <label>ID Utilisateur : <input type="number" name="userId" required></label>
-        <label>ID Catway : <input type="number" name="catwayId" required></label>
-        <label>Date Début : <input type="date" name="startDate" required></label>
-        <label>Date Fin : <input type="date" name="endDate" required></label>
+    <form action="/catways/reservations/add" method="post">
+        <label>Numéro Catways : <input type="text" name="catwayNumber" required></label>
+        <label>Nom Client : <input type="text" name="clientName" required></label>
+        <label>Date Début : <input type="date" name="checkIn" required></label>
+        <label>Date Fin : <input type="date" name="checkOut" required></label>
         <button type="submit">Enregistrer Réservation</button>
     </form>
 
     <!-- Formulaire de suppression de réservation -->
     <h2>Supprimer une Réservation</h2>
-    <form action="/reservations/:id" method="delete">
-        <label>ID Réservation : <input type="number" name="reservationId" required></label>
+    <form action="/catways/reservations/:id" method="delete">
+        <label>ID Réservation : <input type="text" name="reservationId" required></label>
         <button type="submit">Supprimer Réservation</button>
     </form>
-
+    
     <!-- Formulaire de détails de réservation -->
     <h2>Détails d'une Réservation</h2>
-    <form action="/reservations/:id" method="get">
-        <label>ID Réservation : <input type="number" name="reservationId" required></label>
-        <button type="submit">Afficher Détails</button>
+    <form action="/catways/reservations/details/:id" method="get">
+        <label for="reservationId">ID de la réservation :</label>
+        <input type="text" id="reservationId" required>
+        <button type="submit">Voir les détails</button>
     </form>
-
     <!-- Liens -->
     <h2>Navigation</h2>
     <a href="/catways/list">Liste des Catways</a>

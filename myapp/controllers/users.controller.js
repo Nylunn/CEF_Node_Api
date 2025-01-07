@@ -35,7 +35,7 @@ const createUser = async (req, res) => {
         const user = await User.create({
             email,
             password: hashedPassword,
-            name
+            name,
         });
 
         res.status(201).json({ message: 'Utilisateur créé avec succès', userId: user._id });
