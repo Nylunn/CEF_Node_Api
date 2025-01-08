@@ -19,7 +19,7 @@ const userRoutes = require('../routes/users.js');
 const methodOverride = require('method-override');
 const Users = require('../models/user.js')
 const Reservation = require('../models/reservation.js');
-const { isAdmin, isAuthenticated } = require('../middlewares/auth.js');
+const { isAdmin, isAuthenticated, hasRole } = require('../middlewares/auth.js');
 const User = require('../models/user.js');
 const session = require('express-session');
 app.use(methodOverride('_method'));
@@ -43,7 +43,30 @@ initClientDbConnection()
     .catch(err => {
         console.error("Échec de la connexion MongoDB ->", err);
     });
+
     
+const corsOptions = {
+    origin: '*', 
+    allowedHeaders: ['Authorization', 'Content-Type'],
+};
+    
+//Test des rôles
+
+app.get('/profile', isAuthenticated, (req, res) => {
+    res.send(`Welcome, ${req.user.name}!`);
+});
+
+
+app.get('/admin', isAuthenticated, isAdmin, (req, res) => {
+    res.send('Welcome to the admin dashboard');
+});
+
+app.get('/manager', isAuthenticated, hasRole('manager'), (req, res) => {
+    res.send('Welcome to the manager dashboard');
+});
+
+
+
 app.use(
       session({
           secret: 'votre_secret',
@@ -52,7 +75,9 @@ app.use(
         cookie: { secure: false }
        })
 );
-app.use(cors());
+
+
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -107,19 +132,21 @@ app.get('/listofreservations',  async (req, res) => {try {
 
 
 
-app.get('/listofcatways', isAuthenticated, isAdmin,  async (req, res) => {    try {
-    const [catways, users] = await Promise.all([
-        Catways.find({}),
-        Users.find({})
-    ]);
+app.get('/listofcatways', isAuthenticated, isAdmin, async (req, res) => {
+    try {
+        const [catways, users] = await Promise.all([
+            Catways.find({}),
+            Users.find({})
+        ]);
 
-    res.locals.users = users;
-    res.locals.catways = catways;
-    res.render('catwayslist'); 
-} catch (error) {
-    res.status(500).send(error);
-}
+        res.locals.catways = catways;
+        res.locals.users = users;
+        res.render('catwayslist');
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
 });
+
 
 
 app.get('/catways/details/:id', isAuthenticated, isAdmin, async (req, res) => {

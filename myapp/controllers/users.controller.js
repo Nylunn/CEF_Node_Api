@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const router = express.Router();
 const jwtSecret = process.env.JWT_SECRET;
+const SECRET_KEY = process.env.SECRET_KEY;
 if (!jwtSecret) {
     throw new Error('JWT_SECRET is not defined in the environment variables');
 }
@@ -103,48 +104,41 @@ const deleteUser = async (req, res) => {
 // Connexion a un user
 
 
-const authenticate = async (req, res, next) => {
+const authenticate = async (req, res) => {
     const { email, password } = req.body;
 
-    try {
-        // Vérifier que les champs email et password sont fournis
-        if (!email || !password) {
-            return res.status(400).json({ error: 'missing_fields', message: 'Email and password are required.' });
+  try  {
+    let user = await User.findOne({ email: email }, '-__v -createdAt -updateAt'); 
+    if (user) {
+        bcrypt.compare(password, user.password, function(err, response) {
+            if (err) {
+                throw new Error(err);
+            }
+            if (response) {
+                delete user._doc_password;
+
+                const expireIn = 24 * 60 * 60;
+                const token = jwt.sign({
+                    user: user
+                },
+            SECRET_KEY,
+        {
+            expiresIn: expireIn
+        });
+            res.header('Authorization', 'Bearer ' + token);
+            console.log('Token:', token);
+            return res.status(200).json('authenticate_succeed');
         }
 
-        // Recherche de l'utilisateur dans la base de données
-        const user = await User.findOne({ email });
-
-        console.log('User found:', user); // Log l'utilisateur trouvé
-
-        // Vérifier si l'utilisateur existe
-        if (!user) {
-            return res.status(404).json({ error: 'user_not_found', message: 'User not found.' });
-        }
-
-        // Vérifier le mot de passe
-        const isMatch = await bcrypt.compare(password, user.password);
-        console.log('Password match:', isMatch); // Log le résultat de la comparaison
-
-        if (!isMatch) {
-            return res.status(403).json({ error: 'wrong_credentials', message: 'Invalid email or password.' });
-        }
-        const token = jwt.sign(
-            { id: user._id, email: user.email }, // Payload
-            process.env.JWT_SECRET,             // Secret key
-            { expiresIn: '1h' }                 // Options (durée de validité)
-        );
-        
-        res.status(200).json({ message: 'Authentication successful', token });
-
-    } catch (error) {
-        console.error('Authentication error:', error);
-
-        // Gestion des erreurs générales
-        res.status(500).json({ error: 'server_error', message: error.message });
+        return res.status(403).json('wrong_credentials');
+        });
+    } else {
+        return res.status(404).json('user_not_found');
     }
+} catch (error) {
+    return res.status(501).json(error);
+}
 };
-
 
 module.exports = router;
 
