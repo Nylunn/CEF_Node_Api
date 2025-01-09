@@ -1,36 +1,49 @@
 const express = require('express');
-const user = require('../models/user')
-
+const user = require('../models/user');
 const jwt = require('jsonwebtoken');
 
 function isAuthenticated(req, res, next) {
-    const token = req.headers.authorization?.split(' ')[1];
-    if (!token) {
-        return res.status(401).send('Access denied. No token provided.');
-    }
-
     try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const token = req.cookies.authToken;
+        console.log('Token vérifié:', token ? 'présent' : 'absent');
 
-        // Extraction correcte de `user` dans `req.user`
-        req.user = decoded.user; 
-        console.log('Decoded user:', req.user); // Log pour vérifier
+        if (!token) {
+            return res.redirect('/login');
+        }
+
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        console.log('Contenu du token:', decoded);
+
+        // Vérifie que les données nécessaires sont présentes
+        if (!decoded.id || !decoded.role) {
+            console.log('Token invalide - données manquantes');
+            res.clearCookie('authToken');
+            return res.redirect('/login');
+        }
+
+        // Attache les données utilisateur à la requête
+        req.user = decoded;
         next();
-    } catch (err) {
-        res.status(401).send('Invalid token.');
+
+    } catch (error) {
+        console.error('Erreur authentification:', error);
+        res.clearCookie('authToken');
+        return res.redirect('/login');
     }
 }
 
-
-
-
 function isAdmin(req, res, next) {
-    console.log('User role:', req.user?.role); // Log pour vérifier le rôle
-    if (req.user && req.user.role === 'admin') {
-        next();
-    } else {
-        res.status(403).send('Access denied. Admins only.');
+    if (!req.user) {
+        console.log('User is not defined in the request');
+        return res.status(403).send('Access denied.');
     }
+
+    if (req.user.role !== 'admin') {
+        console.log(`Access denied for user with role: ${req.user.role}`);
+        return res.status(403).send('Access denied. Admins only.');
+    }
+
+    next();
 }
 
 
@@ -46,15 +59,36 @@ function hasRole(role) {
 
 
 function generateToken(user) {
+    // Vérifions ce qu'on reçoit
+    console.log('Génération token pour:', user);
+    
+    // On extrait directement les propriétés dont on a besoin
     const payload = {
-        id: user.id,
+        id: user._id?.toString(), // Convertit ObjectId en string si nécessaire
         name: user.name,
+        email: user.email,
         role: user.role
     };
-
-    return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
+    
+    console.log('Payload du token:', payload);
+    
+    // On retourne le token avec uniquement ces informations
+    return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '24h' });
+}
+function renewToken(req, res, next) {
+    if (req.user) {
+        // Renouvelle le token
+        const newToken = generateToken(req.user);
+        res.cookie('authToken', newToken, { 
+            httpOnly: true, 
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'strict',
+            maxAge: 24 * 60 * 60 * 1000
+        });
+    }
+    next();
 }
 
 
 
-module.exports = { isAdmin, isAuthenticated, hasRole, generateToken };
+module.exports = { isAdmin, isAuthenticated, hasRole, generateToken, renewToken };

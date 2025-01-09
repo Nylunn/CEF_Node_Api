@@ -2,7 +2,6 @@ const express = require('express');
 const helmet = require('helmet');
 const app = express();
 const port = 3000;
-const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
 require('dotenv').config({ path: '../env/.env' });
@@ -19,9 +18,13 @@ const userRoutes = require('../routes/users.js');
 const methodOverride = require('method-override');
 const Users = require('../models/user.js')
 const Reservation = require('../models/reservation.js');
-const { isAdmin, isAuthenticated, hasRole } = require('../middlewares/auth.js');
+const { isAdmin, isAuthenticated, hasRole, renewToken} = require('../middlewares/auth.js');
 const User = require('../models/user.js');
 const session = require('express-session');
+const cookieParser = require('cookie-parser');
+
+
+// Méthode de view / methode override pour ne pas enfraindre les regles 
 app.use(methodOverride('_method'));
 const jwtSecret = process.env.JWT_SECRET;
 if (!jwtSecret) {
@@ -31,6 +34,7 @@ if (!jwtSecret) {
 app.set('views', path.join(__dirname, 'view')); // Pointe vers le répertoire 'view'
 app.set('view engine', 'ejs');
 
+//Connexion a la db
 
 initClientDbConnection()
     .then(() => {
@@ -66,7 +70,7 @@ app.get('/manager', isAuthenticated, hasRole('manager'), (req, res) => {
 });
 
 
-
+// DEPENDANCES 
 app.use(
       session({
           secret: 'votre_secret',
@@ -76,7 +80,7 @@ app.use(
        })
 );
 
-
+app.use(cookieParser());
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -95,6 +99,8 @@ app.use(
       },
     })
   );
+
+  //FIN DES DEPENDANCES
 
 app.use("/catways/", reservationRoute);
 app.use("/catways", catwaysRoute);
@@ -116,7 +122,7 @@ app.get('/', async (req, res) => {
 
 
 
-app.get('/listofreservations',  async (req, res) => {try {
+app.get('/listofreservations', isAuthenticated, isAdmin, async (req, res) => {try {
     const [reservations, users] = await Promise.all([
         Reservation.find({}),
         Users.find({})
@@ -190,7 +196,8 @@ app.get('/reservations/details/:id', isAuthenticated, isAdmin, async (req, res) 
     try {
         const selectedReservation = await Reservation.findOne({ _id: reservationId }); // Rechercher par ID
         if (selectedReservation) {
-            res.render('reservationsdetails', { reservation: selectedReservation }); // Envoyer les données à la vue
+            res.render('reservationsdetails', {user: req.user  , reservation: selectedReservation });
+             // Envoyer les données à la vue
         } else {
             res.status(404).send('Reservation non trouvé'); // ID non trouvé
         }
@@ -200,27 +207,108 @@ app.get('/reservations/details/:id', isAuthenticated, isAdmin, async (req, res) 
     }
 });
 
-app.get('/about', isAuthenticated, async (req, res) => {
+//page a propos
+
+app.get('/about', isAuthenticated, renewToken, async (req, res) => {
     try {
-        const user  = await Users.find({});
-        res.locals.user  = user; 
-        res.render('about', { title: 'A propos' });
+        res.render('about', /* {
+            user: req.user  
+        }*/);
     } catch (error) {
         console.error('Erreur:', error);
         res.status(500).send('Erreur serveur');
     }
 });
 
+//fonction pour le login
+const jwt = require('jsonwebtoken')
+
 app.get('/login', async (req, res) => {
     try {
-        const user  = await Users.find({});
-        res.locals.user  = user; 
-        res.render('login');
+        res.render('login', {
+            user: req.user || { role: 'user' }, // Valeur par défaut
+            userToken: ''});
     } catch (error) {
         console.error('Erreur:', error);
         res.status(500).send('Erreur serveur');
     }
 });
+
+
+app.post('/users/authenticate', async (req, res) => {
+    try {
+        console.log('Requête reçue:', req.body);
+        const { email, password } = req.body;
+
+        // Trouve l'utilisateur
+        const user = await Users.findOne({ email });
+        if (!user) {
+            return res.status(401).json({
+                success: false,
+                message: 'Email ou mot de passe incorrect'
+            });
+        }
+
+        // Vérifie le mot de passe
+        const validPassword = await bcrypt.compare(password, user.password);
+        if (!validPassword) {
+            return res.status(401).json({
+                success: false,
+                message: 'Email ou mot de passe incorrect'
+            });
+        }
+
+        // Prépare les données utilisateur pour le token
+        const userData = {
+            id: user._id.toString(), // Convertit explicitement l'ObjectId en string
+            name: user.name,
+            email: user.email,
+            role: user.role
+        };
+
+        console.log('Données utilisateur pour le token:', userData);
+
+        // Génère directement le token ici plutôt qu'utiliser generateToken
+        const token = jwt.sign(userData, process.env.JWT_SECRET, { 
+            expiresIn: '24h' 
+        });
+
+        // Configure le cookie
+        res.cookie('authToken', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'lax',
+            maxAge: 24 * 60 * 60 * 1000
+        });
+
+        // Vérifie que le token est valide
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        console.log('Token décodé pour vérification:', decoded);
+
+        // Envoie la réponse
+        return res.json({
+            success: true,
+            message: 'Connexion réussie',
+            user: userData
+        });
+
+    } catch (error) {
+        console.error('Erreur d\'authentification:', error);
+        return res.status(500).json({
+            success: false,
+            message: error.message || 'Erreur lors de la connexion'
+        });
+    }
+});
+
+//Déconnexion
+
+app.get('/logout', (req, res) => {
+    res.clearCookie('authToken');
+    res.redirect('/');
+});
+
+//Fonction d'enregistrement
 
 app.get('/register', async (req, res) => {
     try {

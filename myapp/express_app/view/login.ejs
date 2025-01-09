@@ -62,6 +62,7 @@ font-family: Arial, sans-serif;
             <input type="email" name="email" required> <br> <br>
             <label for="password">Mot de passe</label> <br>
             <input type="password" name="password" required> <br> <br>
+            <input type="hidden" name="token" value="<%= userToken %>">
             </div>
             <input type="submit" value="Connexion" style="color: white; background-color: black; width: 100px; height: 30px; border-radius: 20px; font-size: 15px; font-family: Poppins;">
             <br> <a href="./">Retour à l'acceuil</a>
@@ -70,36 +71,41 @@ font-family: Arial, sans-serif;
         
     </div>
     <script>
-        document.querySelector('form').addEventListener('submit', async (event) => {
-            event.preventDefault(); 
+   document.querySelector('form').addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const form = event.target;
     
-            // Récupérer les données du formulaire
-            const formData = new FormData(event.target);
-            const data = {
-                email: formData.get('email'),
-                password: formData.get('password'),
-            };
-    
-            try {
-                // Envoyer la requête POST à l'API
-                const response = await fetch('http://localhost:3000/users/authenticate', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data),
-                });
-    
-                if (response.ok) {
-                    // Si la connexion réussi, rediriger vers une autre page
-                    window.location.href = '/about'; // Page où rediriger l'utilisateur
-                } else {
-                    // Gérer les erreurs (exemple : mauvais identifiants)
-                    const error = await response.json();
-                    alert(error.message || 'Erreur lors de la connexion');
-                }
-            } catch (error) {
-                console.error('Erreur:', error);
-                alert('Impossible de se connecter au serveur');
-            }
+    try {
+        const formData = {
+            email: form.querySelector('[name="email"]').value,
+            password: form.querySelector('[name="password"]').value
+        };
+
+        console.log('Envoi des données:', formData); // Debug
+
+        const response = await fetch('/users/authenticate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include',
+            body: JSON.stringify(formData)
         });
+
+        const data = await response.json();
+        console.log('Réponse reçue:', data); // Debug
+
+        if (data.success) {
+            console.log('Connexion réussie, redirection...');
+            window.location.href = '/about';
+        } else {
+            // Message d'erreur explicite
+            alert(data.message || 'Erreur lors de la connexion');
+        }
+    } catch (error) {
+        console.error('Erreur:', error);
+        alert('Erreur de connexion au serveur');
+    }
+});
     </script>
     
