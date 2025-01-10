@@ -15,17 +15,17 @@ const mongodb = require('../db/mongo');
 const catwaysRoute = require('../routes/catways');
 const reservationRoute = require('../routes/reservation.js');
 const userRoutes = require('../routes/users.js');
-const methodOverride = require('method-override');
+//const methodOverride = require('method-override');
 const Users = require('../models/user.js')
 const Reservation = require('../models/reservation.js');
 const { isAdmin, isAuthenticated, hasRole, renewToken} = require('../middlewares/auth.js');
 const User = require('../models/user.js');
-const session = require('express-session');
+//const session = require('express-session');
 const cookieParser = require('cookie-parser');
 
 
 // Méthode de view / methode override pour ne pas enfraindre les regles 
-app.use(methodOverride('_method'));
+//app.use(methodOverride('_method'));
 const jwtSecret = process.env.JWT_SECRET;
 if (!jwtSecret) {
     throw new Error('JWT_SECRET is not defined in the environment variables');
@@ -71,14 +71,14 @@ app.get('/manager', isAuthenticated, hasRole('manager'), (req, res) => {
 
 
 // DEPENDANCES 
-app.use(
+/*app.use(
       session({
           secret: 'votre_secret',
         resave: false,
         saveUninitialized: true,
         cookie: { secure: false }
        })
-);
+);*/
 
 app.use(cookieParser());
 app.use(cors(corsOptions));
