@@ -125,9 +125,16 @@ const authenticate = async (req, res) => {
         {
             expiresIn: expireIn
         });
-            res.header('Authorization', 'Bearer ' + token);
+            /*res.header('Authorization', 'Bearer ' + token);
             console.log('Token:', token);
-            return res.status(200).json('authenticate_succeed');
+            return res.status(200).json('authenticate_succeed');*/
+                return res
+                    .cookie("access_token", token, {
+                        httpOnly: true,
+                        secure: process.env.NODE_ENV === "production",
+                    })
+                    .status(200)
+                    .json({ message: "Logged in successfully 😊 👌" });
         }
 
         return res.status(403).json('wrong_credentials');
