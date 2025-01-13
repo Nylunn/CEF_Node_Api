@@ -1,11 +1,11 @@
 const express = require('express');
 const user = require('../models/user');
 const jwt = require('jsonwebtoken');
+const SECRET_KEY = process.env.SECRET_KEY;
 
 function isAuthenticated(req, res, next) {
     try {
-        const token = req.cookies.authToken;
-        console.log('Token vérifié:', token ? 'présent' : 'absent');
+        const token = req.cookies.access_token;
 
         if (!token) {
             return res.redirect('/login');
@@ -33,12 +33,20 @@ function isAuthenticated(req, res, next) {
 }
 
 function isAdmin(req, res, next) {
-    if (!req.user) {
+    let user = null;
+    const token = req.cookies.access_token;
+    if (token) {
+        jwt.verify(token, SECRET_KEY, (err, decoded) => {
+            user = decoded.user;
+        });
+    }
+
+    if (!user) {
         console.log('User is not defined in the request');
         return res.status(403).send('Access denied.');
     }
 
-    if (req.user.role !== 'admin') {
+    if (user.role !== 'admin') {
         console.log(`Access denied for user with role: ${req.user.role}`);
         return res.status(403).send('Access denied. Admins only.');
     }
@@ -88,7 +96,5 @@ function renewToken(req, res, next) {
     }
     next();
 }
-
-
 
 module.exports = { isAdmin, isAuthenticated, hasRole, generateToken, renewToken };
