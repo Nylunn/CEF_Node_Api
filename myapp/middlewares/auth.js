@@ -8,18 +8,13 @@ function isAuthenticated(req, res, next) {
         const token = req.cookies.access_token;
 
         if (!token) {
-            return res.redirect('/login');
+            return res.redirect('/about');
         }
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         console.log('Contenu du token:', decoded);
 
-        // Vérifie que les données nécessaires sont présentes
-        if (!decoded.id || !decoded.role) {
-            console.log('Token invalide - données manquantes');
-            res.clearCookie('authToken');
-            return res.redirect('/login');
-        }
+ 
 
         // Attache les données utilisateur à la requête
         req.user = decoded;

@@ -162,7 +162,7 @@ font-family: Arial, sans-serif;
     <h1>Catways</h1>
     <br>
 
-        <h2>Créer un Catway</h2>
+        <h2 id="catways">Créer un Catway</h2>
         <form method="POST" action="/catways/add">
             <input type="text" id="catwayNumber" name="catwayNumber" required placeholder="Numéro du catway"> <br>
             <input type="text" id="type" name="type" required placeholder="type (short | long)"> <br>
@@ -198,7 +198,7 @@ font-family: Arial, sans-serif;
         
     <!-- Formulaire d'enregistrement de réservation -->
 
-    <h2>Enregistrer une Réservation</h2>
+    <h2 id="savereservation">Enregistrer une Réservation</h2>
     <form action="/catways/reservations/add" method="post">
         <label>Numéro Catways : <input type="text" name="catwayNumber" required></label>
         <label>Nom Client : <input type="text" name="clientName" required></label>
@@ -208,14 +208,14 @@ font-family: Arial, sans-serif;
     </form>
 
     <!-- Formulaire de suppression de réservation -->
-    <h2>Supprimer une Réservation</h2>
+    <h2 id="deletereservation">Supprimer une Réservation</h2>
     <form action="/catways/reservations/:id" method="delete">
         <label>ID Réservation : <input type="text" name="reservationId" required></label>
         <button type="submit">Supprimer Réservation</button>
     </form>
     
     <!-- Formulaire de détails de réservation -->
-    <h2>Détails d'une Réservation</h2>
+    <h2 id="detailreservation">Détails d'une Réservation</h2>
     <form action="/catways/reservations/details/:id" method="get">
         <label for="reservationId">ID de la réservation :</label>
         <input type="text" id="reservationId" required>

@@ -225,7 +225,7 @@ app.get('/about', isAuthenticated, renewToken, async (req, res) => {
 //fonction pour le login
 const jwt = require('jsonwebtoken')
 
-app.get('/login', async (req, res) => {
+app.get('/login', isAuthenticated, async (req, res) => {
     try {
         res.render('login', {
             user: req.user || { role: 'user' }, // Valeur par défaut
@@ -238,7 +238,7 @@ app.get('/login', async (req, res) => {
 
 
 app.post('/users/authenticate', async (req, res) => {
-    
+
     try {
         console.log('Requête reçue:', req.body);
         const { email, password } = req.body;

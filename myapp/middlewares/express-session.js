@@ -5,7 +5,7 @@ const app = express();
 
 app.use(
     session({
-        secret: 'votre_secret', // Changez cette valeur pour plus de sécurité
+        secret: 'GTGh6rdP54GT76', // Changez cette valeur pour plus de sécurité
         resave: false,
         saveUninitialized: true,
         cookie: { secure: false } // Utilisez `secure: true` si vous utilisez HTTPS
