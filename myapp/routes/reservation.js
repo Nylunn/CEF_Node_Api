@@ -1,6 +1,7 @@
 const express = require('express');
 const Reservation = require('../models/reservation');  
-const router = express.Router();
+const router = express.Router(); 
+const private = require('../middlewares/private')
 const {getReservations, getReservation, createReservation, updateReservation, deleteReservation} = require('../controllers/reservation.controller')
 
 
@@ -8,13 +9,13 @@ const {getReservations, getReservation, createReservation, updateReservation, de
 
 
 //Récupérer les informations des reservations
-router.get('/reservations', getReservations); 
+router.get('/reservations', private.checkJWT, getReservations); 
 //Récupération des infos d'une reservation
-router.get('/reservations/details/:id', getReservation);
+router.get('/reservations/details/:id',private.checkJWT, getReservation);
 //Création d'une reservation
-router.post("/reservations/add", createReservation);
+router.post("/reservations/add", private.checkJWT,createReservation);
 //Mise à jour d'une reservation
-router.put("/reservations/:id", async (req, res) => {
+router.put("/reservations/:id", private.checkJWT, async (req, res) => {
     try {
         console.log(req.body);
         const { id } = req.params;
@@ -43,6 +44,6 @@ router.put("/reservations/:id", async (req, res) => {
     }
 });
 
-router.delete("/reservations/:id", deleteReservation)
+router.delete("/reservations/:id", private.checkJWT, deleteReservation)
 
 module.exports = router;

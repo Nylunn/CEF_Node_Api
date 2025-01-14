@@ -2,12 +2,12 @@ const express = require('express');
 const Catways = require('../models/catways');  
 const router = express.Router();
 const {getCatways, getCatway, createCatways, updateCatways, deleteCatways} = require('../controllers/catways.controller')
-
+const private = require('../middlewares/private')
 
 //Récupérer les informations des catways
-router.get('/', getCatways);
+router.get('/', private.checkJWT, getCatways);
 //Récupération d'un catway
-router.get('/catways/details/:id', async (req, res) => {
+router.get('/catways/details/:id', private.checkJWT, async (req, res) => {
     try {
         const catway = await Catways.findById(req.params.id);
         if (!catway) {
@@ -22,11 +22,11 @@ router.get('/catways/details/:id', async (req, res) => {
     }
 });
 //Création d'un catway
-router.post("/add", createCatways);
+router.post("/add", private.checkJWT, createCatways);
 
 //Mise à jour d'un catway
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', private.checkJWT, async (req, res) => {
     try {
         console.log(req.body);
         const { id } = req.params;
@@ -55,6 +55,6 @@ router.put('/:id', async (req, res) => {
 
 module.exports = router;
 //Suppression d'un catway
-router.delete("/:id", deleteCatways)
+router.delete("/:id",private.checkJWT, deleteCatways)
 
 module.exports = router;

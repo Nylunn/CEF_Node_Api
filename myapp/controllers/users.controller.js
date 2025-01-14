@@ -125,9 +125,6 @@ const authenticate = async (req, res) => {
         {
             expiresIn: expireIn
         });
-           /* res.header('Authorization', 'Bearer ' + token);
-            console.log('Token:', token);
-            return res.status(200).json('authenticate_succeed');*/
             return res
             .cookie("access_token", token, {
                 httpOnly: true,

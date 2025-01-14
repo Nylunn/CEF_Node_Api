@@ -8,7 +8,7 @@ function isAuthenticated(req, res, next) {
         const token = req.cookies.access_token;
 
         if (!token) {
-            return res.redirect('/about');
+            return res.redirect('/login');
         }
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -27,38 +27,7 @@ function isAuthenticated(req, res, next) {
     }
 }
 
-function isAdmin(req, res, next) {
-    let user = null;
-    const token = req.cookies.access_token;
-    if (token) {
-        jwt.verify(token, SECRET_KEY, (err, decoded) => {
-            user = decoded.user;
-        });
-    }
 
-    if (!user) {
-        console.log('User is not defined in the request');
-        return res.status(403).send('Access denied.');
-    }
-
-    if (user.role !== 'admin') {
-        console.log(`Access denied for user with role: ${req.user.role}`);
-        return res.status(403).send('Access denied. Admins only.');
-    }
-
-    next();
-}
-
-
-function hasRole(role) {
-    return (req, res, next) => {
-        if (req.user && req.user.role === role) {
-            next();
-        } else {
-            res.status(403).send(`Access denied. ${role.charAt(0).toUpperCase() + role.slice(1)}s only.`);
-        }
-    };
-}
 
 
 function generateToken(user) {
@@ -92,4 +61,4 @@ function renewToken(req, res, next) {
     next();
 }
 
-module.exports = { isAdmin, isAuthenticated, hasRole, generateToken, renewToken };
+module.exports = {  isAuthenticated, generateToken, renewToken };
