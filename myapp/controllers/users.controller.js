@@ -132,6 +132,7 @@ const authenticate = async (req, res) => {
             })
             .status(200)
             .json({ message: "Logged in successfully 😊 👌" });
+            
         }
 
         return res.status(403).json('wrong_credentials');

@@ -23,11 +23,6 @@ font-family: Arial, sans-serif;
         text-decoration: none; 
         padding: 8px 12px;
     ">A propos</a>
-             <a href="/login" style="
-             color: white; 
-             text-decoration: none; 
-             padding: 8px 12px;
-         ">Connexion</a>
           <a href="/register" style="
           color: white; 
           text-decoration: none; 
@@ -79,7 +74,7 @@ font-family: Arial, sans-serif;
 
         if (data.success) {
             console.log('Connexion réussie, redirection...');
-            window.location.href = '/about';
+            window.location.href = '/panel';
         } else {
             // Message d'erreur explicite
             alert(data.message || 'Erreur lors de la connexion');

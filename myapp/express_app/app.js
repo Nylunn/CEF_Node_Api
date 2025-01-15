@@ -17,7 +17,6 @@ const reservationRoute = require('../routes/reservation.js');
 const userRoutes = require('../routes/users.js');
 const Users = require('../models/user.js')
 const Reservation = require('../models/reservation.js');
-const { isAuthenticated, renewToken} = require('../middlewares/auth.js');
 const User = require('../models/user.js');
 const cookieParser = require('cookie-parser');
 const private = require('../middlewares/private');
@@ -90,7 +89,7 @@ app.get('/',  async (req, res) => {
 
 
 
-app.get('/listofreservations',   async (req, res) => {try {
+app.get('/listofreservations', private.checkJWT,  async (req, res) => {try {
     const [reservations, users] = await Promise.all([
         Reservation.find({}),
         Users.find({})
@@ -106,7 +105,7 @@ app.get('/listofreservations',   async (req, res) => {try {
 
 
 
-app.get('/listofcatways',   async (req, res) => {
+app.get('/listofcatways', private.checkJWT,  async (req, res) => {
     try {
         const [catways, users] = await Promise.all([
             Catways.find({}),
@@ -123,7 +122,7 @@ app.get('/listofcatways',   async (req, res) => {
 
 
 
-app.get('/catways/details/:id',   async (req, res) => {
+app.get('/catways/details/:id', private.checkJWT,   async (req, res) => {
     const catwayId = req.params.id; // Récupérer l'ID de l'URL
     try {
         const selectedCatway = await Catways.findOne({ _id: catwayId }); // Rechercher par ID
@@ -191,9 +190,8 @@ app.get('/panel', private.checkJWT,   async (req, res) => {
 });
 
 //fonction pour le login
-const jwt = require('jsonwebtoken')
 
-app.get('/login', private.checkJWT,  async (req, res) => {
+app.get('/login',  async (req, res) => {
     try {
         res.render('login', {
             user: req.user || { role: 'user' }, // Valeur par défaut
@@ -202,6 +200,7 @@ app.get('/login', private.checkJWT,  async (req, res) => {
         console.error('Erreur:', error);
         res.status(500).send('Erreur serveur');
     }
+    
 });
 
 

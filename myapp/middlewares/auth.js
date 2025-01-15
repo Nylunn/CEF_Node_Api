@@ -3,29 +3,7 @@ const user = require('../models/user');
 const jwt = require('jsonwebtoken');
 const SECRET_KEY = process.env.SECRET_KEY;
 
-function isAuthenticated(req, res, next) {
-    try {
-        const token = req.cookies.access_token;
 
-        if (!token) {
-            return res.redirect('/login');
-        }
-
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        console.log('Contenu du token:', decoded);
-
- 
-
-        // Attache les données utilisateur à la requête
-        req.user = decoded;
-        next();
-
-    } catch (error) {
-        console.error('Erreur authentification:', error);
-        res.clearCookie('authToken');
-        return res.redirect('/login');
-    }
-}
 
 
 
@@ -61,4 +39,4 @@ function renewToken(req, res, next) {
     next();
 }
 
-module.exports = {  isAuthenticated, generateToken, renewToken };
+module.exports = {  authenticateToken, generateToken, renewToken };

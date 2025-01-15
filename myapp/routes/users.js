@@ -7,7 +7,7 @@ const private = require('../middlewares/private')
 
 
 //Création d'un user
-router.post('/add', private.checkJWT, createUser);
+router.post('/add',  createUser);
 //Récupérartion de tous les users
 router.get('/', private.checkJWT, getAllUsers);
 //Récupération des données d'un utilisateur
@@ -18,6 +18,6 @@ router.put('/:id', private.checkJWT, updateUser)
 router.delete('/:id', private.checkJWT, deleteUser)
 
 //Connexion à un compte
-router.post('/authenticate', private.checkJWT, authenticate)
+router.post('/authenticate',  authenticate)
 
 module.exports = router;
