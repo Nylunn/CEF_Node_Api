@@ -15,14 +15,9 @@ const mongodb = require('../db/mongo');
 const catwaysRoute = require('../routes/catways');
 const reservationRoute = require('../routes/reservation.js');
 const userRoutes = require('../routes/users.js');
-const Users = require('../models/user.js')
-const Reservation = require('../models/reservation.js');
-const User = require('../models/user.js');
+const Users = require('../models/user.js');
 const cookieParser = require('cookie-parser');
 const private = require('../middlewares/private');
-
-
-
 const jwtSecret = process.env.JWT_SECRET;
 if (!jwtSecret) {
     throw new Error('JWT_SECRET is not defined in the environment variables');
