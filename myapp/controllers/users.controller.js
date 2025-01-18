@@ -131,7 +131,7 @@ const authenticate = async (req, res) => {
                 secure: process.env.NODE_ENV === "production",
             })
             .status(200)
-            .json({ message: "Logged in successfully 😊 👌" , redirect: '/panel'} );
+            .json({ message: "Logged in successfully 😊 👌", success: true} );
         
         }
 
