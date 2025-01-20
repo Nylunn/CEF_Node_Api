@@ -1,238 +1,255 @@
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Liste des Catways</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f4f4f4;
-            line-height: 1.6;
-        }
-        h1 {
-            color: #333;
-            border-bottom: 2px solid #5c9ead;
-            padding-bottom: 10px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background-color: white;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 12px;
-            text-align: left;
-        }
-        th {
-            background-color: #5c9ead;
-            color: white;
-        }
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-        tr:hover {
-            background-color: #e6f2f5;
-        }
-        .actions {
-            display: flex;
-            gap: 10px;
-        }
-        .btn {
-            display: inline-block;
-            background-color: #5c9ead;
-            color: white;
-            text-decoration: none;
-            padding: 6px 10px;
-            border-radius: 4px;
-            transition: background-color 0.3s ease;
-        }
-        .btn:hover {
-            background-color: #4a7e8c;
-        }
-        .btn-details {
-            background-color: #4a7e8c;
-        }
-        .btn-delete {
-            background-color: #e74c3c;
-        }
-        .btn-delete:hover {
-            background-color: #c0392b;
-        }
-        .btn-edit {
-            background-color: #f39c12;
-        }
-        .btn-edit:hover {
-            background-color: #d35400;
-        }
-        .navigation {
-            margin-top: 20px;
-        }
-        .navigation a {
-            display: inline-block;
-            background-color: #5c9ead;
-            color: white;
-            text-decoration: none;
-            padding: 10px 15px;
-            border-radius: 4px;
-            transition: background-color 0.3s ease;
-            margin-right: 10px;
-        }
-        .navigation a:hover {
-            background-color: #4a7e8c;
-        }
-        .description {
-            max-width: 300px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-    </style>
-</head>
-<body>
-    <nav style="
-    background-color: #5c9ead; 
-    display: flex; 
-    justify-content: space-between; 
-    align-items: center; 
-    padding: 15px 30px; 
-    font-family: Arial, sans-serif;
-">
-    <a href="/" style="
-        color: white; 
-        font-size: 1.5em; 
-        font-weight: bold; 
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f4f4f4;
+        line-height: 1.6;
+      }
+      h1 {
+        color: #333;
+        border-bottom: 2px solid #5c9ead;
+        padding-bottom: 10px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: white;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+      }
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 12px;
+        text-align: left;
+      }
+      th {
+        background-color: #5c9ead;
+        color: white;
+      }
+      tr:nth-child(even) {
+        background-color: #f2f2f2;
+      }
+      tr:hover {
+        background-color: #e6f2f5;
+      }
+      .actions {
+        display: flex;
+        gap: 10px;
+      }
+      .btn {
+        display: inline-block;
+        background-color: #5c9ead;
+        color: white;
         text-decoration: none;
-    ">Gestion Catways</a>
-    
-    <div style="
-        display: flex; 
-        gap: 20px;
-    ">
-        <a href="./" style="
-            color: white; 
-            text-decoration: none; 
-            padding: 8px 12px;
-        ">Acceuil</a>
-        
-        <a href="/Panel" style="
-            color: white; 
-            text-decoration: none; 
-            padding: 8px 12px;
-        ">Panel Port</a>
-        
-        <a href="/listofcatways" style="
-            color: white; 
-            text-decoration: none; 
-            padding: 8px 12px;
-        ">Catways</a>
-        
-        <a href="/listofreservations" style="
-            color: white; 
-            text-decoration: none; 
-            padding: 8px 12px;
-        ">Réservations</a>
-                 <a href="/login" style="
-                 color: white; 
-                 text-decoration: none; 
-                 padding: 8px 12px;
-             ">Connexion</a>
-              <a href="/register" style="
-              color: white; 
-              text-decoration: none; 
-              padding: 8px 12px;
-          ">S'inscrire</a>
-          <a href="/listofusers" style="
-          color: white; 
-          text-decoration: none; 
-          padding: 8px 12px;
-      ">Utilisateurs</a>
-           <a href="/logout" style="
-           color: white; 
-           text-decoration: none; 
-           padding: 8px 12px;
-       ">Déconnexion</a>
-    </div>
-</nav>
-    <h1>Liste des Catways  </h1>
- 
+        padding: 6px 10px;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+      }
+      .btn:hover {
+        background-color: #4a7e8c;
+      }
+      .btn-details {
+        background-color: #4a7e8c;
+      }
+      .btn-delete {
+        background-color: #e74c3c;
+      }
+      .btn-delete:hover {
+        background-color: #c0392b;
+      }
+      .btn-edit {
+        background-color: #f39c12;
+      }
+      .btn-edit:hover {
+        background-color: #d35400;
+      }
+      .navigation {
+        margin-top: 20px;
+      }
+      .navigation a {
+        display: inline-block;
+        background-color: #5c9ead;
+        color: white;
+        text-decoration: none;
+        padding: 10px 15px;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+        margin-right: 10px;
+      }
+      .navigation a:hover {
+        background-color: #4a7e8c;
+      }
+      .description {
+        max-width: 300px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    </style>
+  </head>
+  <body>
+    <nav
+      style="
+        background-color: #5c9ead;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 30px;
+        font-family: Arial, sans-serif;
+      "
+    >
+      <a
+        href="/"
+        style="
+          color: white;
+          font-size: 1.5em;
+          font-weight: bold;
+          text-decoration: none;
+        "
+        >Catways</a
+      >
+
+      <div style="display: flex; gap: 20px">
+        <a
+          href="./"
+          style="color: white; text-decoration: none; padding: 8px 12px"
+          >Acceuil</a
+        >
+
+        <a
+          href="/panel"
+          style="color: white; text-decoration: none; padding: 8px 12px"
+          >Panel Port</a
+        >
+        <a
+          href="/listofreservations"
+          style="color: white; text-decoration: none; padding: 8px 12px"
+          >Réservations</a
+        >
+        <a
+          href="/logout"
+          style="color: white; text-decoration: none; padding: 8px 12px"
+          >Déconnexion</a
+        >
+      </div>
+    </nav>
+    <h1>Liste des Catways</h1>
+
     <table>
-        <thead>
-            <tr>
-                <th>ID Catway</th>
-                <th>Nom</th>
-                <th>Description</th>
-                <th>Statut</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% catways.forEach(catway => { %>
-                <tr>
-                    <td><%= catway._id %></td>
-                    <td><%= catway.catwayNumber %></td>
-                    <td>
-                        <span id="type-<%= catway._id %>"><%= catway.type %></span>
-                        <form id="form-<%= catway._id %>" class="edit-form">
-                            <input type="text" id="newType-<%= catway._id %>" value="<%= catway.type %>">
-                            <button type="button" onclick="updateType('<%= catway._id %>')">OK</button>
-                            <button type="button" onclick="cancelEdit('<%= catway._id %>')">Annuler</button>
-                        </form>
-                    </td>
-                    <td><%= catway.catwayState %></td>
-                    <td class="actions">
-                        <a href="#" onclick="deleteCatway('<%= catway._id %>')" class="btn btn-details">Supprimer</a>
-                        <a href="/catways/details/<%= catway._id %>" class="btn btn-details">Détails</a>
-                        </td>
-                </tr>
-            <% }); %>
-        </tbody>
+      <thead>
+        <tr>
+          <th>ID Catway</th>
+          <th>Nom</th>
+          <th>Description</th>
+          <th>Statut</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% catways.forEach(catway => { %>
+        <tr>
+          <td><%= catway._id %></td>
+          <td><%= catway.catwayNumber %></td>
+          <td>
+            <span id="type-<%= catway._id %>"><%= catway.type %></span>
+            <form id="form-<%= catway._id %>" class="edit-form">
+              <input
+                type="text"
+                id="newType-<%= catway._id %>"
+                value="<%= catway.type %>"
+              />
+              <button type="button" onclick="updateType('<%= catway._id %>')">
+                OK
+              </button>
+              <button type="button" onclick="cancelEdit('<%= catway._id %>')">
+                Annuler
+              </button>
+            </form>
+          </td>
+          <td><%= catway.catwayState %></td>
+          <td class="actions">
+            <a
+              href="#"
+              onclick="deleteCatway('<%= catway._id %>')"
+              class="btn btn-details"
+              >Supprimer</a
+            >
+            <a href="/catways/details/<%= catway._id %>" class="btn btn-details"
+              >Détails</a
+            >
+          </td>
+        </tr>
+        <% }); %>
+      </tbody>
     </table>
 
     <div class="navigation">
-        <form method="POST" action="/catways/add">
-            <input type="text" id="catwayNumber" name="catwayNumber" required placeholder="Numéro du catway"> <br>
-            <input type="text" id="type" name="type" required placeholder="type (short | long)"> <br>
-            <input type="text" id="catwayState" name="catwayState" required placeholder="État du catway"> <br>
-            <button type="submit">Nouveau Catway</button>
-        </form>
-        <a href="/">Retour au Menu Principal</a>
+      <form method="POST" action="/catways/add">
+        <input
+          type="text"
+          id="catwayNumber"
+          name="catwayNumber"
+          required
+          placeholder="Numéro du catway"
+        />
+        <br />
+        <input
+          type="text"
+          id="type"
+          name="type"
+          required
+          placeholder="type (short | long)"
+        />
+        <br />
+        <input
+          type="text"
+          id="catwayState"
+          name="catwayState"
+          required
+          placeholder="État du catway"
+        />
+        <br />
+        <button type="submit">Nouveau Catway</button>
+      </form>
+      <a href="/">Retour au Menu Principal</a>
     </div>
 
     <script>
-        function editType(id) {
-            document.getElementById(`display-${id}`).style.display = 'none';
-            document.getElementById(`input-${id}`).style.display = 'block';
-            document.getElementById(`edit-${id}`).style.display = 'none';
-            document.getElementById(`save-${id}`).style.display = 'block';
-        }
-    
-        function saveType(id) {
-    const newType = document.getElementById(`input-${id}`).value;
+      function editType(id) {
+        document.getElementById(`display-${id}`).style.display = "none";
+        document.getElementById(`input-${id}`).style.display = "block";
+        document.getElementById(`edit-${id}`).style.display = "none";
+        document.getElementById(`save-${id}`).style.display = "block";
+      }
 
-    fetch(`https://localhost:3000/catways/${id}`, { 
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ type: newType }),
-    })
-    .then(response => {
-        if (response.ok) {
-            document.getElementById(`display-${id}`).textContent = newType;
-            document.getElementById(`display-${id}`).style.display = 'block';
-            document.getElementById(`input-${id}`).style.display = 'none';
-        } else {
-            console.error(`Erreur serveur : ${response.statusText}`);
-        }
-    })
-    .catch(error => console.error('Erreur de la requête :', error));
-}
+      function saveType(id) {
+        const newType = document.getElementById(`input-${id}`).value;
 
-        </script>
-</body>
+        fetch(`https://localhost:3000/catways/${id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ type: newType }),
+        })
+          .then((response) => {
+            if (response.ok) {
+              document.getElementById(`display-${id}`).textContent = newType;
+              document.getElementById(`display-${id}`).style.display = "block";
+              document.getElementById(`input-${id}`).style.display = "none";
+            } else {
+              console.error(`Erreur serveur : ${response.statusText}`);
+            }
+          })
+          .catch((error) => console.error("Erreur de la requête :", error));
+      }
+    </script>
+  </body>
 </html>

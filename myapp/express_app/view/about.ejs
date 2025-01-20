@@ -1,114 +1,178 @@
-<html style="font-family: Poppins;">
-    <nav style="
-    background-color: #5c9ead; 
-    display: flex; 
-    justify-content: space-between; 
-    align-items: center; 
-    padding: 15px 30px; 
-    font-family: Arial, sans-serif;
-">
-    <a href="/" style="
-        color: white; 
-        font-size: 1.5em; 
-        font-weight: bold; 
+<html style="font-family: Poppins">
+  <nav
+    style="
+      background-color: #5c9ead;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      font-family: Arial, sans-serif;
+    "
+  >
+    <a
+      href="/"
+      style="
+        color: white;
+        font-size: 1.5em;
+        font-weight: bold;
         text-decoration: none;
-    ">A propos</a>
-    
-    <div style="
-        display: flex; 
-        gap: 20px;
-    ">
-        <a href="./" style="
-            color: white; 
-            text-decoration: none; 
-            padding: 8px 12px;
-        ">Acceuil</a>
-        
-        <a href="/Panel" style="
-            color: white; 
-            text-decoration: none; 
-            padding: 8px 12px;
-        ">Panel Port</a>
-        
-        <a href="/listofcatways" style="
-            color: white; 
-            text-decoration: none; 
-            padding: 8px 12px;
-        ">Catways</a>
-        
-        <a href="/listofreservations" style="
-            color: white; 
-            text-decoration: none; 
-            padding: 8px 12px;
-        ">Réservations</a>
-         <a href="/login" style="
-         color: white; 
-         text-decoration: none; 
-         padding: 8px 12px;
-     ">Connexion</a>
-      <a href="/register" style="
-      color: white; 
-      text-decoration: none; 
-      padding: 8px 12px;
-  ">S'inscrire</a>
-       <a href="/logout" style="
-       color: white; 
-       text-decoration: none; 
-       padding: 8px 12px;
-   ">Déconnexion</a>
-    </div>
-</nav>
-    <h1>Port de plaisance Russel API - Documentation </h1>
-    <h2>Vue d'ensemble</h2>
-    <p>Cette API sert à <br> 
-        • Créer un catway <br>
-        • Lister l’ensemble des catways <br>
-        • Récupérer les détails d’un catway en particulier <br>
-        • Modifier la description de l’état d’un catway en particulier <br>
-        • Supprimer un catway <br>
-        • Prendre la réservation d’un catway <br>
-        • Supprimer une réservation <br>
-        • Lister l’ensemble des réservations <br> 
-        • Afficher les détails d’une réservation en particulier</p>
-    <h2>Tutoriel</h2>
-    <p>Pour utiliser l'API de Port de Plaisance Russel</p>
-    <section>
-        <h2>Étape 1 : Enregistrement</h2>
-        <ol>
-            <li>Rendez-vous sur l'URL : <a href="http://localhost:3000/register">http://localhost:3000/register</a>.</li>
-            <li>Remplissez le formulaire d'inscription avec les informations demandées (nom, email, mot de passe).</li>
-            <li>Validez l'inscription en suivant les instructions (vérification email si nécessaire).</li>
-        </ol>
-    </section>
-    <section>
-        <h2>Étape 2 : Connexion</h2>
-        <ol>
-            <li>Accédez à l'URL : <a href="http://localhost:3000/login">http://localhost:3000/login</a>.</li>
-            <li>Connectez-vous avec vos identifiants (email et mot de passe) pour accéder à l'API de manière classique.</li>
-            <li>Vous pourrez alors utiliser les endpoints disponibles selon les permissions de base.</li>
-        </ol>
-    </section>
+      "
+      >A propos</a
+    >
 
-    <section>
-        <h2>Étape 3 : Accès intégral à l'API</h2>
-        <p>Pour accéder à toutes les fonctionnalités avancées (panel admin, gestion des réservations, passerelles de paiement, utilisateurs, etc.), connectez-vous avec les identifiants suivants :</p>
-        <ul>
-            <li><strong>Email</strong> : kawzex@outlook.fr</li>
-            <li><strong>Mot de passe</strong> : Nylun</li>
-        </ul>
-        <p>Avec ces identifiants, vous aurez accès aux fonctionnalités administratives et complètes de l’API.</p>
-    </section>
-    <h2>Exemple</h2>
-    <p>Voici des démonstrations</p> <br>
-    <h2>Catways</h2>
-    <a href="http://localhost:3000/panel#catways" target="_blank">Créer un catway</a> <br>
-    <a href="http://localhost:3000/listofcatways" target="_blank">Afficher Les catways</a> <br>
-    <a href="http://localhost:3000/catways/details/677bd6728beb743e2a1c62d1" target="_blank">Afficher un catway</a> <br>
-    <a href="http://localhost:3000/panel#catways" target="_blank">Modifier un catway</a> <br>
-    <a href="http://localhost:3000/panel#catways" target="_blank">Supprimer un catway</a> <br>
-    <h2>Réservations</h2>
-    <a href="http://localhost:3000/panel#savereservation" target="_blank">Enregistrer une reservation</a> <br>
-    <a href="http://localhost:3000/panel#detailreservation" target="_blank">Détail d'une reservation</a> <br>
-    <a href="http://localhost:3000/panel#deletereservation" target="_blank">Supprimer un catway</a> <br>
-    <br> <a href="./">Retour à l'acceuil</a>
+    <div style="display: flex; gap: 20px">
+      <a
+        href="./"
+        style="color: white; text-decoration: none; padding: 8px 12px"
+        >Acceuil</a
+      >
+
+      <a
+        href="/Panel"
+        style="color: white; text-decoration: none; padding: 8px 12px"
+        >Panel Port</a
+      >
+
+      <a
+        href="/listofcatways"
+        style="color: white; text-decoration: none; padding: 8px 12px"
+        >Catways</a
+      >
+
+      <a
+        href="/listofreservations"
+        style="color: white; text-decoration: none; padding: 8px 12px"
+        >Réservations</a
+      >
+      <a
+        href="/login"
+        style="color: white; text-decoration: none; padding: 8px 12px"
+        >Connexion</a
+      >
+      <a
+        href="/register"
+        style="color: white; text-decoration: none; padding: 8px 12px"
+        >S'inscrire</a
+      >
+      <a
+        href="/logout"
+        style="color: white; text-decoration: none; padding: 8px 12px"
+        >Déconnexion</a
+      >
+    </div>
+  </nav>
+  <h1>Port de plaisance Russel API - Documentation</h1>
+  <h2>Recommandations :</h2>
+  <br />
+  <strong style="color: red">
+    S'être inscrit et connécté ! sinon l'api ne detecte pas votre token donc ne
+    vous ne laissera pas l'accès aux pages.
+  </strong>
+  <br />
+  <div style="display: flex; padding: 10">
+    <a href="/register" style="margin-right: 20px">S'inscrire</a>
+    <br />
+    <a href="/login">Connexion</a>
+  </div>
+  <h2>Vue d'ensemble</h2>
+  <p>
+    Cette API sert à <br />
+    • Créer un catway <br />
+    • Lister l’ensemble des catways <br />
+    • Récupérer les détails d’un catway en particulier <br />
+    • Modifier la description de l’état d’un catway en particulier <br />
+    • Supprimer un catway <br />
+    • Prendre la réservation d’un catway <br />
+    • Supprimer une réservation <br />
+    • Lister l’ensemble des réservations <br />
+    • Afficher les détails d’une réservation en particulier
+  </p>
+  <h2>Tutoriel</h2>
+  <p>Pour utiliser l'API de Port de Plaisance Russel</p>
+  <section>
+    <h2>Étape 1 : Enregistrement</h2>
+    <ol>
+      <li>
+        Rendez-vous sur l'URL :
+        <a href="http://localhost:3000/register"
+          >http://localhost:3000/register</a
+        >.
+      </li>
+      <li>
+        Remplissez le formulaire d'inscription avec les informations demandées
+        (nom, email, mot de passe).
+      </li>
+    </ol>
+  </section>
+  <section>
+    <h2>Étape 2 : Connexion</h2>
+    <ol>
+      <li>
+        Accédez à l'URL :
+        <a href="http://localhost:3000/login">http://localhost:3000/login</a>.
+      </li>
+      <li>
+        Connectez-vous avec vos identifiants (email et mot de passe) pour
+        accéder à l'API.
+      </li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>Étape 3 : Accès intégral à l'API</h2>
+    <p>
+      Pour accéder à toutes les fonctionnalités avancées (panel admin, gestion
+      des réservations, catways, utilisateurs, etc.) <br>
+      Vous allez être retourné vers la page <a href="/panel">Panel</a> qui n'est pas accessible en mode déconnécté. <br>
+    Sur cette page, vous aurez accès aux services suivants : <br>
+    <ul>
+        <li>
+            <a href="/listofcatways">Liste des catways</a> <br>
+            <a href="/listofreservations">Liste des reservations</a> <br>
+        </li>
+    </ul>
+    Ainsi qu'aux détails des reservations / catways / users
+    </p>
+  </section>
+  <h2>Exemple</h2>
+  <p>Voici des démonstrations</p>
+  <br />
+  <h2>Catways</h2>
+  <a href="http://localhost:3000/panel#catways" target="_blank"
+    >Créer un catway</a
+  >
+  <br />
+  <a href="http://localhost:3000/listofcatways" target="_blank"
+    >Afficher Les catways</a
+  >
+  <br />
+  <a
+    href="http://localhost:3000/catways/details/677bd6728beb743e2a1c62d1"
+    target="_blank"
+    >Afficher un catway</a
+  >
+  <br />
+  <a href="http://localhost:3000/panel#catways" target="_blank"
+    >Modifier un catway</a
+  >
+  <br />
+  <a href="http://localhost:3000/panel#catways" target="_blank"
+    >Supprimer un catway</a
+  >
+  <br />
+  <h2>Réservations</h2>
+  <a href="http://localhost:3000/panel#savereservation" target="_blank"
+    >Enregistrer une reservation</a
+  >
+  <br />
+  <a href="http://localhost:3000/panel#detailreservation" target="_blank"
+    >Détail d'une reservation</a
+  >
+  <br />
+  <a href="http://localhost:3000/panel#deletereservation" target="_blank"
+    >Supprimer un catway</a
+  >
+  <br />
+  <br />
+  <a href="./">Retour à l'acceuil</a>
 </html>
