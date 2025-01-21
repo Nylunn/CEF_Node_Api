@@ -3,7 +3,6 @@ import chaiHttp from "chai-http";
 
 chai.use(chaiHttp);
 import { expect } from "chai";
-import server from "../express_app/app.js";
 
 describe("POST /users/add", () => {
   it("should create a new user", async (done) => {
