@@ -7,7 +7,8 @@
     "dev": "env-cmd -f ./env/.env.dev nodemon ./express_app/app.js",
     "prod": "env-cmd -f ./env/.env.prod nodemon ./express_app/app.js",
     "build": "env-cmd -f ./env/.env.dev nodemon ./express_app/app.js",
-    "test": "mocha"
+    "test": "mocha",
+    "type": "module"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
