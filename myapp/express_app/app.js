@@ -113,7 +113,7 @@ app.get("/listofcatways", private.checkJWT, async (req, res) => {
 });
 
 //Récupération des détails d'un catways
-app.get("/catways/details/:id", private.checkJWT, async (req, res) => {
+/*app.get("/catways/details/:id", private.checkJWT, async (req, res) => {
   const catwayId = req.params.id; // Récupérer l'ID de l'URL
   try {
     const selectedCatway = await Catways.findOne({ _id: catwayId }); // Rechercher par ID
@@ -125,6 +125,21 @@ app.get("/catways/details/:id", private.checkJWT, async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).send("Erreur serveur"); // Gérer les erreurs du serveur
+  }
+});*/
+
+app.get("/catways/details/", private.checkJWT, async (req, res) => {
+  const catwayId = req.query.id;
+  try {
+    const selectedCatway = await Catways.findOne({ _id: catwayId });
+    if (selectedCatway) {
+      res.render("catwaysdetails", { catway: selectedCatway });
+    } else {
+      res.status(404).send("Catway non trouvé");
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Erreur serveur");
   }
 });
 
