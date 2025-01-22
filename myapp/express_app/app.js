@@ -112,8 +112,8 @@ app.get("/listofcatways", private.checkJWT, async (req, res) => {
   }
 });
 
-//Récupération des détails d'un catways
-/*app.get("/catways/details/:id", private.checkJWT, async (req, res) => {
+//Récupération des détails d'un catways depuis listofcatways
+app.get("/catways/details/:id", private.checkJWT, async (req, res) => {
   const catwayId = req.params.id; // Récupérer l'ID de l'URL
   try {
     const selectedCatway = await Catways.findOne({ _id: catwayId }); // Rechercher par ID
@@ -126,8 +126,9 @@ app.get("/listofcatways", private.checkJWT, async (req, res) => {
     console.error(err);
     res.status(500).send("Erreur serveur"); // Gérer les erreurs du serveur
   }
-});*/
+});
 
+//Méthode pour le formulaire dans /panel.ejs
 app.get("/catways/details/", private.checkJWT, async (req, res) => {
   const catwayId = req.query.id;
   try {
@@ -143,7 +144,7 @@ app.get("/catways/details/", private.checkJWT, async (req, res) => {
   }
 });
 
-// récupération du détails d'une reservations
+// récupération du détails d'une reservations dans listofreservations
 
 app.get("/reservations/details/:id", private.checkJWT, async (req, res) => {
   const reservationId = req.params.id; // Récupérer l'ID de l'URL
@@ -165,6 +166,30 @@ app.get("/reservations/details/:id", private.checkJWT, async (req, res) => {
     res.status(500).send("Erreur serveur"); // Gérer les erreurs du serveur
   }
 });
+
+//Récurations des détails d'une reservations depuis le formulaire dans panel.ejs
+
+app.get("/reservations/details/", private.checkJWT, async (req, res) => {
+  const reservationId = req.query.id; // Récupérer l'ID de l'URL
+  try {
+    const selectedReservation = await Reservation.findOne({
+      _id: reservationId,
+    }); // Rechercher par ID
+    if (selectedReservation) {
+      res.render("reservationsdetails", {
+        user: req.user,
+        reservation: selectedReservation,
+      });
+      // Envoyer les données à la vue
+    } else {
+      res.status(404).send("Reservation non trouvé"); // ID non trouvé
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Erreur serveur"); // Gérer les erreurs du serveur
+  }
+});
+
 //page a propos
 
 app.get("/about", async (req, res) => {

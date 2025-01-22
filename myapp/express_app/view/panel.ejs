@@ -199,7 +199,7 @@
 
     <!-- Formulaire de modification de description de catway -->
     <h2>Modifier Description du Catway</h2>
-    <form method="PUT" action="/catways/:id">
+    <form method="PUT" action="/catways/">
       <input type="text" id="id" name="id" required placeholder="id" /> <br />
       <input
         type="text"
@@ -262,10 +262,14 @@
 
     <!-- Formulaire de détails de réservation -->
     <h2 id="detailreservation">Détails d'une Réservation</h2>
-    <form action="/catways/reservations/details/:id" method="get">
-      <label for="reservationId">ID de la réservation :</label>
-      <input type="text" id="reservationId" required />
-      <button type="submit">Voir les détails</button>
+    <form action="/reservations/details/" method="GET">
+      <input
+        type="text"
+        name="id"
+        placeholder="Entrez l'ID de la reservations"
+        required
+      />
+      <button type="submit">Voir détails</button>
     </form>
   </body>
 </html>
