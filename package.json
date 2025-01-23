@@ -1,0 +1,11 @@
+{
+  "name": "devoir-node",
+  "version": "1.0.0",
+  "description": "API pour le port de plaisance russel",
+  "main": "\tapp.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Nylun",
+  "license": "ISC"
+}
