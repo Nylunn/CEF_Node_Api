@@ -22,7 +22,7 @@ router.put("/:id", private.checkJWT, updateUser);
 //Suppression d'un User
 router.delete("/:id", private.checkJWT, deleteUser);
 
-router.post("/update", async (req, res) => {
+router.post("/update", private.checkJWT, async (req, res) => {
   const { id, name, email } = req.body;
 
   try {
@@ -51,7 +51,7 @@ router.post("/update", async (req, res) => {
   }
 });
 
-router.post("/delete", async (req, res) => {
+router.post("/delete", private.checkJWT, async (req, res) => {
   const { id } = req.body;
 
   try {

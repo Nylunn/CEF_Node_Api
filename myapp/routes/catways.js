@@ -88,7 +88,7 @@ router.put("/:id", private.checkJWT, async (req, res) => {
   }
 });
 
-router.post("/delete", async (req, res) => {
+router.post("/delete", private.checkJWT, async (req, res) => {
   const { id } = req.body;
 
   try {
