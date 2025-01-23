@@ -2,7 +2,7 @@
   "name": "devoir-node",
   "version": "1.0.0",
   "description": "API pour le port de plaisance russel",
-  "main": "express_app/app.js",
+  "main": "myapp/express_app/app.js",
   "scripts": {
     "start": "env-cmd -f ./env/.env.dev nodemon ./express_app/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
