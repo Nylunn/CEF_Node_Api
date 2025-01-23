@@ -2,7 +2,7 @@
   "name": "devoir-node",
   "version": "1.0.0",
   "description": "API pour le port de plaisance russel",
-  "main": "/myapp/express_app/app.js",
+  "main": "/express_app/app.js",
   "scripts": {
     "start": "node ./myapp/express_app/app.js",
     "dev": "nodemon ./myapp/express_app/app.js",
