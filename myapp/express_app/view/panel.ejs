@@ -138,27 +138,37 @@
 
     <!-- Formulaire de modification d'utilisateur -->
     <h2>Modifier un Utilisateur</h2>
-    <form method="PUT" action="/users/:id">
-      <input type="text" id="id" name="id" required placeholder="id" /> <br />
-      <input type="text" id="name" name="name" required placeholder="Nom" />
-      <br />
-      <input type="text" id="email" name="email" required placeholder="email" />
-      <br />
+    <form action="/users/update" method="POST">
+      <label for="id">ID de l'utilisateur :</label>
+      <input type="text" id="id" name="id" placeholder="Entrez l'ID" required />
+
+      <label for="name">Nom :</label>
       <input
         type="text"
-        id="password"
-        name="password"
+        id="name"
+        name="name"
+        placeholder="Nouveau nom"
         required
-        placeholder="Mot de passe"
       />
-      <br />
+
+      <label for="email">Email :</label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        placeholder="Nouvel email"
+        required
+      />
+
       <button type="submit">Modifier</button>
     </form>
 
     <!-- Formulaire de suppression d'utilisateur -->
     <h2>Supprimer un Utilisateur</h2>
-    <form method="PUT" action="/users/:id">
-      <input type="text" id="id" name="id" required placeholder="id" /> <br />
+    <form action="/users/delete" method="POST">
+      <label for="id">ID de l'utilisateur :</label>
+      <input type="text" id="id" name="id" placeholder="Entrez l'ID" required />
+
       <button type="submit">Supprimer</button>
     </form>
 
@@ -227,9 +237,11 @@
     </div>
     <!-- Formulaire de suppression de catway -->
     <h2>Supprimer un Catway</h2>
-    <form action="/catways/:id" method="delete">
-      <label>ID Catway : <input type="text" name="catwayId" required /></label>
-      <button type="submit">Supprimer Catway</button>
+    <form action="/catways/delete" method="POST">
+      <label for="id">ID du catways :</label>
+      <input type="text" id="id" name="id" placeholder="Entrez l'ID" required />
+
+      <button type="submit">Supprimer</button>
     </form>
 
     <br />
@@ -246,20 +258,19 @@
       <label
         >Nom Client : <input type="text" name="clientName" required
       /></label>
-      <label>Date Début : <input type="date" name="checkIn" required /></label>
+      <label>Date Début : <input type="date" name="checkIn" /></label>
       <label>Date Fin : <input type="date" name="checkOut" required /></label>
       <button type="submit">Enregistrer Réservation</button>
     </form>
 
     <!-- Formulaire de suppression de réservation -->
     <h2 id="deletereservation">Supprimer une Réservation</h2>
-    <form action="/catways/reservations/:id" method="delete">
-      <label
-        >ID Réservation : <input type="text" name="reservationId" required
-      /></label>
-      <button type="submit">Supprimer Réservation</button>
-    </form>
+    <form action="/catways/reservations/delete" method="POST">
+      <label for="id">ID de la reservations :</label>
+      <input type="text" id="id" name="id" placeholder="Entrez l'ID" required />
 
+      <button type="submit">Supprimer</button>
+    </form>
     <!-- Formulaire de détails de réservation -->
     <h2 id="detailreservation">Détails d'une Réservation</h2>
     <form action="/reservations/details/" method="GET">

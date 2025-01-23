@@ -64,7 +64,7 @@ router.patch("/:id", private.checkJWT, async (req, res) => {
 router.put("/:id", private.checkJWT, async (req, res) => {
   try {
     console.log(req.body);
-    const { id } = req.params;
+    const { id } = req.body;
     const { type, catwayNumber, catwayState } = req.body;
 
     const updatedCatway = await Catways.findByIdAndUpdate(
@@ -85,6 +85,30 @@ router.put("/:id", private.checkJWT, async (req, res) => {
   } catch (error) {
     console.error("Erreur lors de la mise à jour:", error);
     res.status(500).json({ message: "Erreur serveur" });
+  }
+});
+
+router.post("/delete", async (req, res) => {
+  const { id } = req.body;
+
+  try {
+    // Vérifie que l'ID est fourni
+    if (!id) {
+      return res.status(400).send("ID requis pour supprimer un catways");
+    }
+
+    // Suppression de l'utilisateur
+    const deletedCatways = await Catways.findByIdAndDelete(id);
+
+    if (!deletedCatways) {
+      return res.status(404).send("Catways non trouvé");
+    }
+
+    // Redirige ou renvoie une réponse après succès
+    res.redirect("/panel"); // Remplace par la page où tu veux rediriger après suppression
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Erreur serveur lors de la suppression");
   }
 });
 
