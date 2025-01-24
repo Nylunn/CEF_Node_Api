@@ -74,6 +74,7 @@ app.get("/", async (req, res) => {
     const user = await Users.find({});
     res.locals.user = user;
     res.render("index");
+    res.status(200);
   } catch (error) {
     console.error("Erreur:", error);
     res.status(500).send("Erreur serveur");
