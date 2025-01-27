@@ -150,7 +150,13 @@
                     <td><%= reservation.checkOut %></td>
                     </form>
                     <td class="actions">
-                        <a href="#" onclick="deleteReservation('<%= reservation._id %>')" class="btn btn-details">Supprimer</a>
+                        
+    <form action="/catways/reservations/delete" method="POST">
+      <label for="id">ID de la reservations :</label>
+      <input type="text" id="id" name="id" placeholder="Entrez l'ID" required />
+
+      <button type="submit">Supprimer</button>
+    </form>
                         <a href="/reservations/details/<%= reservation._id %>" class="btn btn-details">Détails</a>
                         </td>
                 </tr>

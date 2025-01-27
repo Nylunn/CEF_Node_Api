@@ -175,12 +175,18 @@
           </td>
           <td><%= catway.catwayState %></td>
           <td class="actions">
-            <a
-              href="#"
-              onclick="deleteCatway('<%= catway._id %>')"
-              class="btn btn-details"
-              >Supprimer</a
-            >
+            <form action="/catways/delete" method="POST">
+              <label for="id">ID du catways :</label>
+              <input
+                type="text"
+                id="id"
+                name="id"
+                placeholder="Entrez l'ID"
+                required
+              />
+
+              <button type="submit">Supprimer</button>
+            </form>
             <a href="/catways/details/<%= catway._id %>" class="btn btn-details"
               >Détails</a
             >

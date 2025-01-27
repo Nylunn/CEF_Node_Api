@@ -97,7 +97,6 @@ router.post("/delete", private.checkJWT, async (req, res) => {
       return res.status(400).send("ID requis pour supprimer un catways");
     }
 
-    // Suppression de l'utilisateur
     const deletedCatways = await Catways.findByIdAndDelete(id);
 
     if (!deletedCatways) {
