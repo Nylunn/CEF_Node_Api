@@ -8,24 +8,18 @@ const {
   updateCatways,
   deleteCatways,
 } = require("../controllers/catways.controller");
+const {getCatwayById} = require('../services/catway');
 const private = require("../middlewares/private");
 
 //Récupérer les informations des catways
 router.get("/", private.checkJWT, getCatways);
+
 //Récupération d'un catway
-router.get("/catways/details/:id", private.checkJWT, async (req, res) => {
-  try {
-    const catway = await Catways.findById(req.params.id);
-    if (!catway) {
-      // Au lieu de render 'error', renvoyons une réponse JSON
-      return res.status(404).json({ error: "Catway non trouvé" });
-    }
-    res.render("catwaysdetails", { catway });
-  } catch (error) {
-    console.error("Erreur:", error);
-    // Au lieu de render 'error', renvoyons une réponse JSON
-    res.status(500).json({ error: "Erreur serveur" });
-  }
+router.get("/details/:id", private.checkJWT, async (req, res) => {
+
+    const catway = await getCatwayById(req.params.id);
+    res.render("catwaysdetails", { catway: catway });
+
 });
 //Création d'un catway
 router.post("/add", private.checkJWT, createCatways);
