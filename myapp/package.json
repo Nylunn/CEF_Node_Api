@@ -7,7 +7,7 @@
     "dev": "env-cmd -f ./env/.env.dev nodemon ./express_app/app.js",
     "prod": "env-cmd -f ./env/.env.prod nodemon ./express_app/app.js",
     "build": "env-cmd -f ./env/.env.dev node ./express_app/app.js",
-    "test": "mocha --timetout 10000",
+    "test": "env-cmd -f ./env/.env.test mocha",
     "type": "module"
   },
   "dependencies": {
