@@ -113,7 +113,7 @@ app.get("/listofcatways", private.checkJWT, async (req, res) => {
   }
 });
 
-//Récupération des détails d'un catways depuis listofcatways
+/*
 app.get("/catways/details/:id", private.checkJWT, async (req, res) => {
   const catwayId = req.params.id; // Récupérer l'ID de l'URL
   try {
@@ -127,7 +127,7 @@ app.get("/catways/details/:id", private.checkJWT, async (req, res) => {
     console.error(err);
     res.status(500).send("Erreur serveur"); // Gérer les erreurs du serveur
   }
-});
+});  ROUTE A DECLARER DANS UN FICHIER APROPRIER*/
 
 //Méthode pour le formulaire dans /panel.ejs
 app.get("/catways/details/", private.checkJWT, async (req, res) => {
