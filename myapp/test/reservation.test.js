@@ -1,6 +1,7 @@
 const { getReservationById } = require("../services/reservation");
-const assert = require("assert"); // On utilise assert de Node.js à la place de chai
+const assert = require("assert");
 
+/** Ici je viens récupérer grâce à l'id présent dans la bdd les informations ci-dessous pour les test, je m'appuie sur les models créer au préalable afin d'avoir les informations correcte */
 describe("Récupère un reservation avec son id", () => {
   it("la reservation ayant pour id '677be464b20b5c2c472d6b09' devrait retourner clientName : Simon ", async () => {
     const id = "677be464b20b5c2c472d6b09";

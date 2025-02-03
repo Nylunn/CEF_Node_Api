@@ -179,11 +179,7 @@ app.get("/reservations/details/", private.checkJWT, async (req, res) => {
 
 app.get("/about", async (req, res) => {
   try {
-    res.render(
-      "about" /* {
-            user: req.user  
-        }*/
-    );
+    res.render("about");
   } catch (error) {
     console.error("Erreur:", error);
     res.status(500).send("Erreur serveur");

@@ -3,11 +3,12 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "env-cmd -f ./env/.env nodemon --inspect ./express_app/app.js",
+    "start:app": "env-cmd -f ./env/.env nodemon --inspect ./express_app/app.js",
+    "start": "npm-run-all --parallel start:app test ",
     "dev": "env-cmd -f ./env/.env.dev nodemon ./express_app/app.js",
     "prod": "env-cmd -f ./env/.env.prod nodemon ./express_app/app.js",
     "build": "env-cmd -f ./env/.env.dev node ./express_app/app.js",
-    "test": "env-cmd -f ./env/.env.test mocha",
+    "test": "env-cmd -f ./env/.env.test mocha ",
     "type": "module"
   },
   "dependencies": {

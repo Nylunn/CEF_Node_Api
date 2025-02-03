@@ -1,5 +1,6 @@
 const Reservation = require("../models/reservation");
 
+/** Ici je viens créer le services pour réservations, il viens récupérer l'ID de la BDD pour retourner ou non les informations*/
 /**
  * Récupère par son ID.
  * @param {string} id - L'ID à récupérer.
