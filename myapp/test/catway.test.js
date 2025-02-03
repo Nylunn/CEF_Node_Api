@@ -10,6 +10,22 @@ describe("Récupère un catway avec son id", () => {
     });
   });
 
+  it("Le catway ayant pour id '677bd6728beb743e2a1c62d0' devrait retourner un catwayState = bon état ", (done) => {
+    const id = "677bd6728beb743e2a1c62d0";
+    getCatwayById(id).then((catway) => {
+      assert.deepEqual(catway.catwayState, "bon état");
+      done();
+    });
+  });
+
+  it("Le catway ayant pour id '677bd6728beb743e2a1c62d0' devrait retourner un type = short ", (done) => {
+    const id = "677bd6728beb743e2a1c62d0";
+    getCatwayById(id).then((catway) => {
+      assert.deepEqual(catway.type, "short");
+      done();
+    });
+  });
+
   it("Le catway ayant un id inexistant devrait retourner une erreur ", (done) => {
     const id = "999bd6728beb743e2a1c62d0";
     getCatwayById(id)
