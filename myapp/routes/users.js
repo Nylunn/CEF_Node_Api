@@ -10,13 +10,17 @@ const {
   authenticate,
 } = require("../controllers/users.controller");
 const private = require("../middlewares/private");
+const { getUserById } = require("../services/user");
 
 //Création d'un user
 router.post("/add", createUser);
 //Récupérartion de tous les users
 router.get("/", private.checkJWT, getAllUsers);
 //Récupération des données d'un utilisateur
-router.get("/:id", private.checkJWT, getUsers);
+router.get("/:id", private.checkJWT, getUsers, async (req, res) => {
+  const user = await getUserById(req.params.id);
+});
+
 //Mise à jour des données d'un utilisateur
 router.put("/:id", private.checkJWT, updateUser);
 //Suppression d'un User

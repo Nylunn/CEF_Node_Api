@@ -113,22 +113,6 @@ app.get("/listofcatways", private.checkJWT, async (req, res) => {
   }
 });
 
-/*
-app.get("/catways/details/:id", private.checkJWT, async (req, res) => {
-  const catwayId = req.params.id; // Récupérer l'ID de l'URL
-  try {
-    const selectedCatway = await Catways.findOne({ _id: catwayId }); // Rechercher par ID
-    if (selectedCatway) {
-      res.render("catwaysdetails", { catway: selectedCatway }); // Envoyer les données à la vue
-    } else {
-      res.status(404).send("Catway non trouvé"); // ID non trouvé
-    }
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Erreur serveur"); // Gérer les erreurs du serveur
-  }
-});  ROUTE A DECLARER DANS UN FICHIER APROPRIER*/
-
 //Méthode pour le formulaire dans /panel.ejs
 app.get("/catways/details/", private.checkJWT, async (req, res) => {
   const catwayId = req.query.id;
